@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/webstore', {
+mongoose.connect('mongodb://' + process.env.DB_HOST + ':' + process.env.DB_PORT + '/webstore', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true

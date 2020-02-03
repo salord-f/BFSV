@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon index.js",
-    "test": "mocha --exit"
+    "start": "cross-env DB_HOST=localhost DB_PORT=27017 nodemon index.js",
+    "test": "cross-env DB_HOST=localhost DB_PORT=27017 mocha --exit"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -21,6 +21,7 @@
     "bcrypt": "^3.0.7",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
+    "cross-env": "^7.0.0",
     "mocha": "^7.0.1",
     "nodemon": "^2.0.2"
   }
