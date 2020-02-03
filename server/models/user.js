@@ -3,8 +3,6 @@ const mongoose = require('mongoose'),
     bcrypt = require('bcrypt'),
     SALT_WORK_FACTOR = 10;
 
-const plugin = require('./plugin');
-
 const user = new Schema(
     {
         mail: {
@@ -17,6 +15,7 @@ const user = new Schema(
         ownedPlugins: [mongoose.Schema.ObjectId],
         purchasedPlugins: [mongoose.Schema.ObjectId],
         cart: [mongoose.Schema.ObjectId],
+        admin: Boolean
     },
     {timestamps: true},
 );

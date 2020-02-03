@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const user = require('./user');
 const categories = require('./categories');
-const comment = require('./comment');
 
 const plugin = new Schema(
     {

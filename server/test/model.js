@@ -51,6 +51,6 @@ describe('Model', function () {
             assert('Content' === JSON.parse(JSON.stringify(result)).content);
             Mongo.collection('users').findOneAndDelete({mail: user.mail});
             Mongo.collection('comments').findOneAndDelete({_id: comment._id})
-        })
+        });
     })
 });
