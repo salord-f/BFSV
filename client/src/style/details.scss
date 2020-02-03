@@ -1,0 +1,36 @@
+.card{
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+    max-width: 800px;
+}
+
+.title{
+    font-size: 14px;
+}
+
+.pos{
+    margin-bottom: 12px;
+}
+
+.media{
+    height: fit-content;
+    width: fit-content;
+}
+
+.wrapper{
+    width: fit-content;
+    overflow: auto;
+}
+
+.leftCard{
+    margin: auto;
+    width: fit-content;
+    float: left;
+}
+
+.rightCard{
+    margin: auto;
+    width: fit-content;
+    float: right;
+}
