@@ -4,7 +4,7 @@ const fs = require('fs');
 const User = require('../models/user');
 
 createUser = (req, res) => {
-    console.log(req.body.mail);
+    //console.log(req.body.mail);
 
     const body = req.body;
 
@@ -105,14 +105,13 @@ getUserById = async (req, res) => {
 };
 
 getUsers = async (req, res) => {
+    // console.log(req.body.mail);
     await User.find({}, (err, user) => {
         if (err) {
             return res.status(400).json({success: false, error: err})
         }
         if (!user.length) {
-            return res
-                .status(200)
-                .json({success: false, error: `No user.`})
+            return res.status(200).json({success: false, error: `No user.`})
         }
         return res.status(200).json({success: true, data: user})
     }).catch(err => console.log(err))
@@ -125,11 +124,11 @@ login = async (req, res) => {
             return res.status(400).json({success: false, error: err})
         }
         user.comparePassword(body.password, (err, correct) => {
-            jwt.sign({user}, 'BaPtIsTeLeGaY', {expiresIn: '1h'}, (err, token) => {
+            jwt.sign({user}, 'BaPtIsTeLeGaY', {expiresIn: '24h'}, (err, token) => {
                 if (err) {
                     console.log(err)
                 }
-                console.log(token);
+                //console.log(token);
                 return res.send(token);
             });
         });

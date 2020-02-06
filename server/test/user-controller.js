@@ -32,22 +32,32 @@ describe('User controller', function () {
             assert.equal(req.status, 401)
         });
         it('should create a user and authenticate', async () => {
-            await chai.request(server)
+            const mail = generateString(10) + "@email.com";
+
+            let req = await chai.request(server)
                 .post('/users')
                 .send({
-                    mail: "test@email.com",
+                    mail: mail,
                     password: "password"
                 });
-            const req = await chai.request(server)
+            assert.equal(req.status, 201);
+
+            req = await chai.request(server)
                 .post('/users/login')
                 .send({
-                    mail: "test@email.com",
+                    mail: mail,
                     password: "password"
                 });
-            console.log(req.text);
-            await chai.request(server)
+            assert.equal(req.status, 200);
+            //console.log(req.text);
+            const token = req.text;
+
+            req = await chai.request(server)
                 .get('/users')
-                .set('Authorization', 'Bearer ' + req.text);
+                .set('Authorization', 'Bearer ' + token);
+            //console.log(req)
+            assert.equal(req.status, 200);
+            //console.log(req.body)
         })
     })
 });
