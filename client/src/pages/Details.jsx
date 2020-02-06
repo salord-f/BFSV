@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import YouTube from 'react-youtube';
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -28,6 +29,16 @@ function TagItem(props) {
     return <Chip className="tagItem" color={"primary"} variant={"outlined"} label={props.item}/>
 }
 
+function youTube(videoId) {
+    if(videoId!==""){
+        return(
+            <div className="youTube">
+                <YouTube videoId={videoId}/>
+            </div>
+        )
+    }
+}
+
 class Details extends Component{
     constructor(props) {
         super(props);
@@ -42,7 +53,7 @@ class Details extends Component{
             //codeLink: String,
             categories: ["MODULATION","REVERB"],
             tags: ["tag1","tag2","tag3"],
-            //youtubeLink: String,
+            youtubeLink: "B3WJaC-7g2c",
             //likes: [String], // user mails
             //comments: [{type: mongoose.Schema.ObjectId, ref: 'comments'}],
             /*status: {
@@ -107,6 +118,7 @@ class Details extends Component{
                         {this.state.plugin.description}
                     </Typography>
                 </CardContent>
+                {youTube(this.state.plugin.youtubeLink)}
                 <CardActions>
                     <Button size="small" href={this.state.plugin.tryLink}>Try now</Button>
                 </CardActions>
