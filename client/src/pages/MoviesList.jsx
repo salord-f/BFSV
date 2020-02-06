@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import ReactTable from 'react-table'
-import api from '../api'
+//import api from '../api'
 
 import styled from 'styled-components'
 
@@ -41,7 +41,7 @@ class DeleteMovie extends Component {
                 `Do tou want to delete the movie ${this.props.id} permanently?`,
             )
         ) {
-            api.deleteMovieById(this.props.id);
+            //api.deleteMovieById(this.props.id);
             window.location.reload()
         }
     };
@@ -62,14 +62,14 @@ class MoviesList extends Component {
     }
 
     componentDidMount = async () => {
-        this.setState({isLoading: true});
+        //this.setState({isLoading: true});
 
-        await api.getAllMovies().then(movies => {
+        /*await api.getAllMovies().then(movies => {
             this.setState({
                 movies: movies.data.data,
                 isLoading: false,
             })
-        })
+        })*/
     };
 
     render() {
