@@ -1,4 +1,5 @@
 .card{
+    margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
     width: fit-content;
@@ -33,4 +34,25 @@
     margin: auto;
     width: fit-content;
     float: right;
+}
+
+.categoryItem1{
+    float: left;
+    height: fit-content;
+    width: fit-content;
+}
+
+.categoryItem2{
+    background-color: lightblue;
+    height: 20px;
+    width: fit-content;
+    text-align: center;
+}
+
+.categoryText{
+    margin-top: 10px;
+}
+
+.tagItem{
+    margin: 3px;
 }

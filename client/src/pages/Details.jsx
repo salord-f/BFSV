@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia';
+import Chip from '@material-ui/core/Chip';
 import '../style/details.scss'
 
 toast.configure({
@@ -15,35 +16,87 @@ toast.configure({
     draggable:false
     });
 
-class Details extends Component{
+function CategoryItem(props) {
+    return <Card className="categoryItem1">
+        <CardContent className="categoryItem2">
+            <Typography className="categoryText">{props.item}</Typography>
+        </CardContent>
+    </Card>
+}
 
-    addToCard = (pluginName) => toast.success("Plugin "+pluginName+" added to cart.");
+function TagItem(props) {
+    return <Chip className="tagItem" color={"primary"} variant={"outlined"} label={props.item}/>
+}
+
+class Details extends Component{
+    constructor(props) {
+        super(props);
+
+        let testplugin = {
+            name: "bASS",
+            version: "1.0.1",
+            description: "The best bass you will every find... and this should be longer because it is a description lol do you like this text? Such beautiful text much words. Is this enough? Do you think we need more text? We need more ziggurats. Ok I stop now",
+            author: "FluidGM",
+            image: "bASS.png",
+            //next are optional
+            //codeLink: String,
+            categories: ["MODULATION","REVERB"],
+            tags: ["tag1","tag2","tag3"],
+            //youtubeLink: String,
+            //likes: [String], // user mails
+            //comments: [{type: mongoose.Schema.ObjectId, ref: 'comments'}],
+            /*status: {
+                available: {type: Boolean, default: false},
+                automaticValidation: {type: Boolean, default: false},
+                manualValidation: {type: Boolean, default: false},
+            },*/
+            tryLink: "https://www.google.be/",
+            price: 15.99,
+            zipLocation: "not sure what is supposed to be here",
+        };
+
+        this.state = {
+            plugin : testplugin
+        };
+    }
+
+    componentWillMount() {
+        //TODO:replace testplugin with the real plugin from DB
+    }
+
+    addToCard = () => toast.success("Plugin "+this.state.plugin.name+" added to cart.");
 
     render() {
         return (
             <Card className="card" variant="outlined">
                 <div className="wrapper">
                     <CardContent className="leftCard">
-                        <CardMedia
-                            className="media"
-                            title="Contemplative Reptile">
-                            <img src={require("../assets/images/bASS.png")}/>
+                        <CardMedia className="media">
+                            <img src={require("../assets/images/"+this.state.plugin.image)}/>
                         </CardMedia>
                     </CardContent>
                     <CardContent className="rightCard">
-                        <Typography color="textSecondary" gutterBottom>
-                            Category : instruments
+                        <Typography color="textSecondary" gutterBottom style={{float: "left"}}>
+                            Category :
                         </Typography>
+                        {this.state.plugin.categories.map((item, index) => (
+                            <CategoryItem key={index} item={item} />
+                        ))}
                         <Typography variant="h5" component="h2">
-                            FluidGM Bass
+                            {this.state.plugin.name}
                         </Typography>
                         <Typography variant="body2" component="p">
-                           Some dope bass
+                            {"v"+this.state.plugin.version}
                         </Typography>
                         <Typography className="title" color="textSecondary" gutterBottom>
-                            15,99 €
+                            {this.state.plugin.price+" €"}
                         </Typography>
-                        <Button variant="contained" onClick={() => this.addToCard("FluidGM")}>Add to cart</Button>
+                        <Button variant="contained" onClick={() => this.addToCard()}>Add to cart</Button>
+                        <div style={{marginTop: "10px"}}>
+                            {this.state.plugin.tags.map((item, index) => (
+                                <TagItem key={index} item={item} />
+                            ))}
+                        </div>
                     </CardContent>
                 </div>
                 <CardContent>
@@ -51,14 +104,11 @@ class Details extends Component{
                         Description
                     </Typography>
                     <Typography variant="body2" component="p">
-                        The best bass you will every find... and this should be longer because it is a description lol do you like this text?
-                        Such beautiful text much words.
-                        Is this enough? Do you think we need more text? We need more ziggurats.
-                        Ok I stop now
+                        {this.state.plugin.description}
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small">Try now</Button>
+                    <Button size="small" href={this.state.plugin.tryLink}>Try now</Button>
                 </CardActions>
             </Card>
         );
