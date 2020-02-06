@@ -1,0 +1,33 @@
+.card {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    max-width: 22vw;
+    height: fit-content;
+}
+
+.media {
+    margin: auto;
+    max-height: 300px;
+    max-width: 70%;
+}
+
+.title {
+    text-align: center;
+    width: 100%;
+    color: white;
+}
+
+.description {
+    margin: auto;
+    color: white;
+    text-align: center;
+}
+
+.descriptionCard {
+    padding-bottom: 0;
+}
+
+.mediaImage {
+    height: 300px;
+    width: 100%;
+}

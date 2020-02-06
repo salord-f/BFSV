@@ -1,0 +1,6 @@
+.pluginsGrid {
+    display: grid;
+    margin-left: 3vw;
+    grid-template-columns: repeat(4, 22vw);
+    grid-column-gap: 2vw;
+}
