@@ -9,7 +9,7 @@ export default function Home(props) {
 
 
     const getUsers = async () => {
-        let res = await axios.post('http://localhost:3000/users/login', {
+        /*let res = await axios.post('http://localhost:3000/users/login', {
             mail: "test@email.com",
             password: "password"
         });
@@ -21,7 +21,7 @@ export default function Home(props) {
         res = await axios.get('http://localhost:3000/users', config);
         setUsers(res.data.data.map((u, id) => {
             return <p key={id}>{u.mail}</p>
-        }));
+        }));*/
     };
 
     const addUser = async (event) => {

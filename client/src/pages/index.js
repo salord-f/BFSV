@@ -1,9 +1,9 @@
-import MoviesList from './MoviesList'
-import MoviesInsert from './MoviesInsert'
-import MoviesUpdate from './MoviesUpdate'
 import Details from "./Details";
 import LoginPage from './Sign/SignView'
 import AdminPage from './Admin/Home'
 import Plugins from './PluginsList/Plugins'
+import Profile from './User/Profile'
+import UserPlugins from './User/UserPlugins'
+import Cart from './User/Cart'
 
-export { MoviesList, MoviesInsert, MoviesUpdate, LoginPage, AdminPage, Details, Plugins}
+export {LoginPage, AdminPage, Details, Plugins, Profile, UserPlugins, Cart}

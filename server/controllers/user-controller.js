@@ -123,20 +123,25 @@ login = async (req, res) => {
         if (err) {
             return res.status(400).json({success: false, error: err})
         }
-        user.comparePassword(body.password, (err, correct) => {
-            console.log('Correct password : ' + correct);
-            if (correct) {
-                jwt.sign({user}, 'BaPtIsTeLeGaY', {expiresIn: '24h'}, (err, token) => {
-                    if (err) {
-                        console.log(err)
-                    }
-                    //console.log(token);
-                    return res.send(token);
-                });
-            } else {
-                res.status(403).send('Wrong password');
-            }
-        });
+        if (body.password) {
+            user.comparePassword(body.password, (err, correct) => {
+                console.log('Correct password : ' + correct);
+                if (correct) {
+                    jwt.sign({user}, 'BaPtIsTeLeGaY', {expiresIn: '24h'}, (err, token) => {
+                        if (err) {
+                            console.log(err)
+                        }
+                        //console.log(token);
+                        return res.send(token);
+                    });
+                } else {
+                    res.status(403).send('Wrong password');
+                }
+            });
+        } else {
+            res.status(403).send('Please provide a password');
+        }
+
     }).catch(err => console.log(err))
 };
 

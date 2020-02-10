@@ -7,32 +7,30 @@ import Typography from '@material-ui/core/Typography';
 
 import "../../style/plugin.scss"
 
-class Plugin extends React.Component {
-    render() {
-        return (
-            <Card className="card" style={{backgroundColor: "gray"}}>
-                <CardActionArea href={"http://localhost:8000/plugins/" + this.props.id}>
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" className="title">
-                            {this.props.title ? this.props.title : "Your plugin title."}
-                        </Typography>
-                    </CardContent>
+export default function Plugin(props) {
 
-                    <CardMedia className="media">
-                        <img className="mediaImage"
-                             src={this.props.image ? require('../../assets/images/' + this.props.image + '.png') : ""}
-                             alt=""/>
-                    </CardMedia>
+    return (
+        <Card className="card" style={{backgroundColor: "gray"}}>
+            <CardActionArea href={"http://localhost:8000/plugins/" + props.id}>
+                <CardContent>
+                    <Typography gutterBottom variant="h5" className="title">
+                        {props.title ? props.title : "Your plugin title."}
+                    </Typography>
+                </CardContent>
 
-                    <CardContent className="descriptionCard">
-                        <Typography gutterBottom variant="subtitle1" className="description">
-                            {this.props.description ? this.props.description : "There should be a description of your plugin here."}
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
-        )
-    }
+                <CardMedia className="media">
+                    <img className="mediaImage"
+                         src={props.image ? require('../../assets/images/' + props.image + '.png') : ""}
+                         alt=""/>
+                </CardMedia>
+
+                <CardContent className="descriptionCard">
+                    <Typography gutterBottom variant="subtitle1" className="description">
+                        {props.description ? props.description : "There should be a description of your plugin here."}
+                    </Typography>
+                </CardContent>
+            </CardActionArea>
+        </Card>
+    )
+
 }
-
-export default Plugin

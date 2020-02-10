@@ -1,8 +1,8 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
-import { NavBar } from '../components'
-import { MoviesList, MoviesInsert, MoviesUpdate, LoginPage, AdminPage, Details, Plugins} from '../pages'
+import {NavBar} from '../components'
+import {AdminPage, Cart, Details, LoginPage, Plugins, Profile, UserPlugins} from '../pages'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -10,10 +10,10 @@ function App() {
     return (
         <Router>
             <Switch>
-                <Route path="/signIn" exact component={() => <LoginPage side={0} />} />
-                <Route path="/signUp" exact component={() => <LoginPage side={2} />} />
-                <Route path="/forgotPassword" exact component={() => <LoginPage side={1} />} />
-                <MainApp />
+                <Route path="/signIn" exact component={() => <LoginPage side={0}/>}/>
+                <Route path="/signUp" exact component={() => <LoginPage side={2}/>}/>
+                <Route path="/forgotPassword" exact component={() => <LoginPage side={1}/>}/>
+                <MainApp/>
             </Switch>
 
         </Router>
@@ -23,20 +23,14 @@ function App() {
 function MainApp() {
     return (
         <>
-            <NavBar />
+            <NavBar/>
             <Switch>
                 <Route path="/test" exact component={Details}/>
-                <Route path="/plugins" exact component={Plugins}/>
-                {/*<Route path="/movies/list" exact component={MoviesList} />
-                <Route path="/movies/create" exact component={MoviesInsert} />
-                <Route
-                    path="/movies/update/:id"
-                    exact
-                    component={MoviesUpdate}
-                />
-
-                <Route path="/" component={MoviesList} />*/}
-                <Route path="/admin" component={AdminPage} />
+                <Route path="/admin" exact component={AdminPage}/>
+                <Route path="/user/profile" exact component={Profile}/>
+                <Route path="/user/plugins" exact component={UserPlugins}/>
+                <Route path="/user/cart" exact component={Cart}/>
+                <Route path="/" exact component={Plugins}/>
             </Switch>
         </>
     )
