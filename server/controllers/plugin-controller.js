@@ -10,12 +10,13 @@ createPlugin = (req, res) => {
         })
     }
 
+    body.image = req.file.path;
     const plugin = new Plugin(body);
-
     if (!plugin) {
         return res.status(400).json({success: false, message: 'Wrong plugin format.'})
     }
-
+    console.log('Plugin created.');
+    console.log(plugin);
     plugin.save()
         .then(() => {
             return res.status(201).json({
@@ -26,12 +27,14 @@ createPlugin = (req, res) => {
             })
         })
         .catch(error => {
+            console.log(error);
             return res.status(400).json({
                 error,
                 message: 'Plugin not created.',
                 plugin: plugin
             })
-        })
+        });
+
 };
 
 updatePlugin = async (req, res) => {

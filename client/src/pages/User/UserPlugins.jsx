@@ -1,124 +1,83 @@
-import React from 'react';
-import {Button, FormGroup, Grid, TextField, withStyles} from "@material-ui/core";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import {green} from "@material-ui/core/colors";
-import {FavoriteBorder} from "@material-ui/icons";
+import React, {useState} from 'react';
+import {Button, Grid, TextField} from "@material-ui/core";
+import axios from 'axios';
+import Input from "@material-ui/core/Input";
 
 
+export default function UserPlugins(props) {
+    const [name, setName] = useState('');
+    const [version, setVersion] = useState('');
+    const [description, setDescription] = useState('');
+    const [image, setImage] = useState('');
 
-export default function Profile(props) {
-
-    const GreenCheckbox = withStyles({
-        root: {
-            color: green[400],
-            '&$checked': {
-                color: green[600],
-            },
-        },
-        checked: {},
-    })(props => <Checkbox color="default" {...props} />);
-
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(event)
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('version', version);
+        formData.append('description', description);
+        formData.append('image', image);
+        formData.append('author', "me");
+
+        const req = await axios.post('http://localhost:3000/plugins', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        console.log(req)
     };
 
-    const [state, setState] = React.useState({
-        checkedA: true,
-        checkedB: true,
-        checkedF: true,
-        checkedG: true,
-    });
-
-    const handleChange = name => event => {
-        setState({ ...state, [name]: event.target.checked });
+    const handleNameChange = (event) => {
+        event.preventDefault();
+        setName(event.target.value)
     };
+    const handleDescriptionChange = (event) => {
+        event.preventDefault();
+        setDescription(event.target.value)
+    };
+
+    const handleVersionChange = (event) => {
+        event.preventDefault();
+        setVersion(event.target.value)
+    };
+
+    const handleImageChange = (event) => {
+        event.preventDefault();
+        setImage(event.target.files[0]);
+        console.log(event.target.files[0]);
+    };
+
     return (
         <>
-            <FormGroup row>
-                <FormControlLabel
-                    control={
-                        <Checkbox checked={state.checkedA} onChange={handleChange('checkedA')} value="checkedA" />
-                    }
-                    label="Secondary"
-                />
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={state.checkedB}
-                            onChange={handleChange('checkedB')}
-                            value="checkedB"
-                            color="primary"
-                        />
-                    }
-                    label="Primary"
-                />
-                <FormControlLabel control={<Checkbox value="checkedC" />} label="Uncontrolled" />
-                <FormControlLabel disabled control={<Checkbox value="checkedD" />} label="Disabled" />
-                <FormControlLabel disabled control={<Checkbox checked value="checkedE" />} label="Disabled" />
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={state.checkedF}
-                            onChange={handleChange('checkedF')}
-                            value="checkedF"
-                            indeterminate
-                        />
-                    }
-                    label="Indeterminate"
-                />
-                <FormControlLabel
-                    control={
-                        <GreenCheckbox
-                            checked={state.checkedG}
-                            onChange={handleChange('checkedG')}
-                            value="checkedG"
-                        />
-                    }
-                    label="Custom color"
-                />
-                <FormControlLabel
-                    control={<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} value="checkedH" />}
-                    label="Custom icon"
-                />
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            value="checkedI"
-                        />
-                    }
-                    label="Custom size"
-                />
-            </FormGroup>
-        <FormGroup onSubmit={handleSubmit}>
             <Grid container spacing={3}>
-                <Grid item xs={1}>
-
-                </Grid>
+                <Grid item xs={1}/>
                 <Grid item xs={6}>
-
-                        User plugins page
-                        <Button color={'primary'}>Test</Button>
-                        <TextField label={'Nom'}>Nom</TextField>
-                        <TextField label={'Version'}>Version</TextField>
-                        <TextField label={'Description'}>Description</TextField>
+                    <Grid item>
                         <Button
                             variant="contained"
                             component="label"
                         >
                             Ajouter une image
-                            <input
+                            <Input
                                 type="file"
                                 style={{display: "none"}}
+                                onChange={handleImageChange}
                             />
                         </Button>
-                    <Button type="submit">Ajouter</Button>
+                    </Grid>
+                    <Grid item>
+                        User plugins page
+                        <TextField label={'Nom'} onChange={handleNameChange}>Nom</TextField>
+                        <TextField label={'Version'} onChange={handleVersionChange}>Version</TextField>
+                        <TextField label={'Description'} onChange={handleDescriptionChange}>Description</TextField>
+                    </Grid>
+
+                    <Button type="submit" onClick={handleSubmit}>Valider</Button>
                 </Grid>
 
             </Grid>
-        </FormGroup>
 
         </>
-    );
+    )
+        ;
 }
