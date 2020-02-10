@@ -22,6 +22,7 @@ router.post('/', upload.single('image'), PluginController.createPlugin);
 router.put('/:id', PluginController.updatePlugin);
 router.delete('/:id', PluginController.deletePlugin);
 router.get('/:id', PluginController.getPluginById);
+router.get('/:id/image', PluginController.getPluginImage);
 router.get('/', PluginController.getPlugins);
 
 module.exports = router;

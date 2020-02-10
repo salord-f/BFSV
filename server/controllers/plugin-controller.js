@@ -102,6 +102,16 @@ getPluginById = async (req, res) => {
     }).catch(err => console.log(err))
 };
 
+getPluginImage = async (req, res) => {
+    console.log('getting plugin');
+    await Plugin.findOne({_id: req.params.id}, (err, plugin) => {
+        if (err) {
+            return res.status(400).json({success: false, error: err})
+        }
+        return res.status(200).sendFile(__dirname + '/../' + plugin.image);
+    }).catch(err => console.log(err))
+};
+
 getPlugins = async (req, res) => {
     await Plugin.find({}, (err, plugin) => {
         if (err) {
@@ -122,4 +132,5 @@ module.exports = {
     deletePlugin,
     getPlugins,
     getPluginById,
+    getPluginImage
 };
