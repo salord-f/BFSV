@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import YouTube from 'react-youtube';
@@ -8,15 +8,14 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import CardMedia from '@material-ui/core/CardMedia';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
+import axios from 'axios';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 
 import '../style/details.scss'
-import {Icon} from "@material-ui/core";
 
 toast.configure({
     autoClose:6000,
@@ -55,6 +54,7 @@ function codeLink(link) {
     }
 }
 
+//TODO move to new file
 function Comment(props){
     let time = new Date(props.comment.time);
     let timeString = time.getDate()+"/";
@@ -90,9 +90,18 @@ function Comment(props){
     )
 }
 
-function Details(){
+function Details(props){
+
+    const [plugin,setPlugin] = useState('');
 
     let x = Date.now();
+
+    useEffect( () => {
+            axios.get("http://localhost:3000/plugins/5e417f4b56e4d01414d7c151").then((response)=>{
+                setPlugin(response.data.data);
+                console.log(response.data.data);
+            });
+    }, []);
 
     let testplugin = {
         name: "bASS",
@@ -125,15 +134,13 @@ function Details(){
         zipLocation: "not sure what is supposed to be here",
     };
 
-    let plugin = testplugin;
-
     return (
         <Grid container alignItems="center" justify="center" direction="column">
             <Grid item xs={8}>
                 <Card className="detailCard" variant="outlined">
                     <Grid container spacing={3}>
                         <Grid item xs={3}>
-                            <img className="detailImage" src={require("../assets/images/"+plugin.image)}/>
+                            {/*<img className="detailImage" src={require("../assets/images/"+plugin.image)}/>*/}
                         </Grid>
                         <Grid item xs={9}>
                             <Grid container justify="flex-start" style={{marginTop: "20px"}}>
@@ -141,8 +148,10 @@ function Details(){
                                     <Typography color="textSecondary" gutterBottom style={{float: "left"}}>
                                         Category :
                                     </Typography>
-                                    {plugin.categories.map((item, index) => (
-                                        <CategoryItem key={index} item={item} />))
+                                    {
+                                        plugin.categories &&
+                                        plugin.categories.map((item, index) => (
+                                            <CategoryItem key={index} item={item} />))
                                     }
                                 </Grid>
                                 <Grid item xs={12}>
@@ -151,20 +160,31 @@ function Details(){
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
+                                    <Typography color="textSecondary">
+                                        {plugin.author}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
                                     <Typography variant="body2" component="p">
                                         {"v"+plugin.version}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Typography className="detailTitle" color="textSecondary" gutterBottom>
-                                        {plugin.price+" €"}
-                                    </Typography>
+                                    {
+                                        plugin.price &&
+                                        <Typography className="detailTitle" color="textSecondary" gutterBottom>
+                                            {plugin.price+" €"}
+                                        </Typography>
+                                    }
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Button variant="contained" onClick={() => addToCard(plugin.name)}>Add to cart</Button>
                                 </Grid>
+
                                 <Grid item xs={12} style={{marginTop: "10px"}}>
-                                    {plugin.tags.map((item, index) => (
+                                    {
+                                        plugin.tags &&
+                                        plugin.tags.map((item, index) => (
                                         <TagItem key={index} item={item} />))
                                     }
                                 </Grid>
@@ -173,7 +193,7 @@ function Details(){
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FavoriteIcon style={{float:"left",color:"red"}}>9</FavoriteIcon>
-                                    <h6 style={{float:"left"}}>{plugin.likes.length}</h6>
+                                    <h6 style={{float:"left"}}>{plugin.likes && plugin.likes.length}</h6>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -197,7 +217,9 @@ function Details(){
                 </Card>
             </Grid>
             <Grid item xs={8} style={{marginTop:"20px"}}>
-                {plugin.comments.map((item, index) => (
+                {
+                    plugin.comments &&
+                    plugin.comments.map((item, index) => (
                     <Comment key={index} comment={item} />))
                 }
             </Grid>
