@@ -1,37 +1,21 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Plugin from "./Plugin";
+import axios from 'axios'
 
 import "../../style/plugins.scss"
 
-export default function Plugins(props) {
+export default function Plugins() {
+    const [plugins, setPlugins] = useState([]);
 
-    const getPlugins = async () => {
-        /*let res = await axios.post('http://localhost:3000/users/login', {
-            mail: "test@email.com",
-            password: "password"
-        });
-        let config = {
-            headers: {
-                Authorization: 'Bearer ' + res.data,
-            }
-        };
-        res = await axios.get('http://localhost:3000/plugins', config);
-        return res;*/
-    };
-
-    const plugins = getPlugins().data ? getPlugins().data.map((plugin) => (
-        <Plugin name={plugin.name} description={plugin.description} image={plugin.image}/>
-    )) : "";
+    useEffect(() => {
+        axios.get('http://localhost:3000/plugins/').then(result => setPlugins(result.data.data));
+    }, []);
 
     return (
         <div className="pluginsGrid">
-            {plugins}
-            <Plugin title="Big Muff"
-                    description="Description of this super plugin wow it is very cool"
-                    image="big_muff.png"/>
-            <Plugin title="GxTubeScreamer"
-                    description="Description of this second super plugin wow how can it be so cool"
-                    image="guitarix.png"/>
+            {plugins.map((plugin) => (
+                <Plugin name={plugin.name} description={plugin.description} id={plugin._id} key={plugin._id + plugin.name}/>
+            ))}
         </div>
 
     )
