@@ -2,7 +2,6 @@ import React from "react";
 import Plugin from "./Plugin";
 
 import "../../style/plugins.scss"
-import axios from "axios";
 
 export default function Plugins(props) {
 
@@ -21,17 +20,18 @@ export default function Plugins(props) {
     };
 
     const plugins = getPlugins().data ? getPlugins().data.map((plugin) => (
-        <Plugin name={plugin.name} description={plugin.description} image={require(plugin.image)}/>
+        <Plugin name={plugin.name} description={plugin.description} image={plugin.image}/>
     )) : "";
 
     return (
         <div className="pluginsGrid">
             {plugins}
-            <Plugin title="Big Muff" description="Description of this super plugin wow it is very cool"
-                    image="big_muff"/>
+            <Plugin title="Big Muff"
+                    description="Description of this super plugin wow it is very cool"
+                    image="big_muff.png"/>
             <Plugin title="GxTubeScreamer"
                     description="Description of this second super plugin wow how can it be so cool"
-                    image="guitarix"/>
+                    image="guitarix.png"/>
         </div>
 
     )
