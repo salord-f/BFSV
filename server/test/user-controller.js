@@ -1,4 +1,4 @@
-import generateString from "../utils/Utils";
+import generateString from "../utils/utils";
 
 const assert = require('assert');
 

@@ -13,7 +13,8 @@
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.8",
-    "multer": "^1.4.2"
+    "multer": "^1.4.2",
+    "yauzl": "^2.10.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.8",

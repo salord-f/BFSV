@@ -1,5 +1,11 @@
 const Plugin = require('../models/plugin');
 
+const fs = require('fs');
+const zlib = require('zlib');
+
+const yauzl = require('yauzl');
+const unzip = require('../utils/unzip');
+
 createPlugin = (req, res) => {
     const body = req.body;
 
@@ -9,8 +15,22 @@ createPlugin = (req, res) => {
             error: 'You must provide a plugin.',
         })
     }
+    console.log(req.files.image[0].path);
+    console.log(req.files.plugin[0].path);
 
-    body.image = req.file.path;
+    yauzl.open(req.files.plugin[0].path, {lazyEntries: true}, function (err, zipfile) {
+        if (err) throw err;
+        unzip(err, zipfile, req.files.plugin[0].path.slice(0, -4));
+    });
+
+    fs.rename(req.files.image[0].path, req.files.plugin[0].path.slice(0, -4) + '/' + req.files.image[0].originalname, function (err, res) {
+        console.log(res);
+    });
+
+    body.image = req.files.plugin[0].path.slice(0, -4) + '/' + req.files.image[0].originalname;
+    body.zipLocation = req.files.plugin[0].path;
+    body.tryLink = req.files.plugin[0].path.slice(0, -4);
+
     const plugin = new Plugin(body);
     if (!plugin) {
         return res.status(400).json({success: false, message: 'Wrong plugin format.'})

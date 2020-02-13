@@ -6,6 +6,7 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/')
     },
     filename: function (req, file, cb) {
+        console.log(file);
         cb(null, file.originalname);
     }
 });
@@ -14,11 +15,12 @@ const upload = multer({
     storage: storage
 });
 
+
 const PluginController = require('../controllers/plugin-controller');
 
 const router = express.Router();
 
-router.post('/', upload.single('image'), PluginController.createPlugin);
+router.post('/', upload.fields([{name: 'image'}, {name: 'plugin'}]), PluginController.createPlugin);
 router.put('/:id', PluginController.updatePlugin);
 router.delete('/:id', PluginController.deletePlugin);
 router.get('/:id', PluginController.getPluginById);
