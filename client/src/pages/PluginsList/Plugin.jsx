@@ -12,7 +12,7 @@ export default function Plugin(props) {
     return (
         <Card className="card" style={{backgroundColor: "gray"}}>
             <CardActionArea href={"http://localhost:8000/plugins/" + props.id}>
-                <CardHeader className="title" title={props.title ? props.title : "Your plugin title."}/>
+                <CardHeader className="title" title={props.name ? props.name : "Your plugin title"}/>
 
                 <CardMedia className="media">
                     <img className="mediaImage"
