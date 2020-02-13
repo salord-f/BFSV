@@ -7,11 +7,15 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { useStyles } from './signStyle';
+import { useHistory } from "react-router-dom";
+import api from './../../api'
 
 
 
 export default function SignUpSide(props) {
     const classes = useStyles();
+
+    const history = useHistory();
 
     const [email, setEmail] = useState('');
 
@@ -19,9 +23,34 @@ export default function SignUpSide(props) {
 
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    const [errorMail, setErrorMail] = useState(false);
+    const [errorMailText, setErrorMailText] = useState("");
 
-    const createAnAccount = () => {
 
+
+    const createAnAccount = async () => {
+        if (password !== confirmPassword) {
+            window.alert("PASSWORD NOT THE SAME")
+        } else {
+
+            let payload = {
+                mail: email,
+                password: password
+            };
+
+            setErrorMail(false);
+            setErrorMailText("");
+
+            console.log(JSON.stringify(payload));
+            await api.createAnAccount(payload).then(res => {
+                window.alert(`TRY TO CREATE ` + JSON.stringify(res));
+                history.push("/signIn");
+            }).catch((err) => {
+                setErrorMail(true);
+                setErrorMailText("Cette adresse est deja relié à un compte");
+            }
+            )
+        }
 
     }
 
@@ -46,6 +75,8 @@ export default function SignUpSide(props) {
                     autoFocus
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
+                    error={errorMail}
+                    helperText={errorMailText}
 
                 />
                 <TextField

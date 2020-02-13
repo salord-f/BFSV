@@ -1,4 +1,5 @@
 node_modules
+.idea
 server/uploads/
 
 !server/uploads/.gitkeep
