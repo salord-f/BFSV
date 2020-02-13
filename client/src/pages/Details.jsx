@@ -42,6 +42,22 @@ function youTube(videoId) {
     }
 }
 
+function Error(){
+    return(
+        <div style={{marginLeft:"auto",marginRight:"auto",maxHeight:"1024px",maxWidth:"1024px",position:"relative"}}>
+            <img src={require("../assets/img/error.jpg")}/>
+            <p style={{color:"hotpink",position:"absolute",marginTop:"-1050px",marginLeft:"50px",fontSize:"150px"}}>F</p>
+            <p style={{color:"hotpink",position:"absolute",marginTop:"-930px",marginLeft:"50px",fontSize:"150px"}}>I</p>
+            <p style={{color:"hotpink",position:"absolute",marginTop:"-810px",marginLeft:"50px",fontSize:"150px"}}>L</p>
+            <p style={{color:"hotpink",position:"absolute",marginTop:"-690px",marginLeft:"50px",fontSize:"150px"}}>E</p>
+            <p style={{color:"hotpink",position:"absolute",marginTop:"-470px",marginLeft:"50px",fontSize:"150px"}}>N</p>
+            <p style={{color:"hotpink",position:"absolute",marginTop:"-350px",marginLeft:"50px",fontSize:"150px"}}>O</p>
+            <p style={{color:"hotpink",position:"absolute",marginTop:"-230px",marginLeft:"50px",fontSize:"150px"}}>T</p>
+            <p style={{color:"green",position:"absolute",marginTop:"-230px",marginLeft:"200px",fontSize:"150px"}}>FOUND</p>
+        </div>
+    )
+}
+
 function addToCard(name){
     toast.success("Plugin "+name+" added to cart.");
 }
@@ -90,17 +106,26 @@ function Comment(props){
     )
 }
 
+
+
 function Details(props){
 
     const [plugin,setPlugin] = useState('');
+    const [error,setError] = useState(false);
 
     let x = Date.now();
 
     useEffect( () => {
-            axios.get("http://localhost:3000/plugins/5e417f4b56e4d01414d7c151").then((response)=>{
+            axios.get("http://localhost:3000/plugins/"+props.match.params.id).then((response)=>{
                 setPlugin(response.data.data);
                 console.log(response.data.data);
-            });
+                //axios.get("http://localhost:3000/plugins/5e417f4b56e4d01414d7c151/image").then((response)=>{
+                    //console.log("Response oui : "+response)
+                //})
+            })
+                .catch(err => {
+                    setError(true);
+                })
     }, []);
 
     let testplugin = {
@@ -135,6 +160,7 @@ function Details(props){
     };
 
     return (
+        error ? <Error/> :
         <Grid container alignItems="center" justify="center" direction="column">
             <Grid item xs={8}>
                 <Card className="detailCard" variant="outlined">

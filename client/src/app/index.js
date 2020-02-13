@@ -58,7 +58,7 @@ function MainRoute() {
         <>
             <NavBar />
             <Switch>
-                <Route path="/test" exact component={Details} />
+                <Route path="/plugins/:id" exact component={Details} />
                 <Route path="/admin" exact component={AdminPage} />
                 <Route path="/user/profile" exact component={Profile} />
                 <Route path="/user/plugins" exact component={UserPlugins} />
