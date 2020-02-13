@@ -16,7 +16,7 @@ export default function Plugin(props) {
 
                 <CardMedia className="media">
                     <img className="mediaImage"
-                         src={props.image ? require('../../assets/images/' + props.image) : ""}
+                         src={props.image ? require('../../assets/' + props.image) : ""}
                          alt=""/>
                 </CardMedia>
 
