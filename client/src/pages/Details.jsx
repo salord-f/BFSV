@@ -17,11 +17,6 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import '../style/details.scss'
 
-toast.configure({
-    autoClose:6000,
-    draggable:false
-    });
-
 function CategoryItem(props) {
     return <Button style={{marginLeft:"10px",background:"lightblue"}}>
         <Typography className="categoryText">{props.item}</Typography>

@@ -9,6 +9,7 @@ import * as storage from 'redux-storage';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import createEngine from 'redux-storage-engine-localstorage';
 import { LOGIN_KEY } from '../redux/ReduxKeys';
+import {ToastContainer} from "react-toastify";
 
 
 storage.reducer(combineReducers(myReducer));
@@ -57,6 +58,7 @@ function MainRoute() {
     return (
         <>
             <NavBar />
+            <ToastContainer style={{marginTop:"80px"}}/>
             <Switch>
                 <Route path="/plugins/:id" exact component={Details} />
                 <Route path="/admin" exact component={AdminPage} />
