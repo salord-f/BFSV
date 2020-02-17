@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import * as storage from 'redux-storage';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import createEngine from 'redux-storage-engine-localstorage';
-import { LOGIN_KEY } from '../redux/ReduxKeys';
+import REDUX_KEY from '../redux/ReduxKeys';
 import {ToastContainer} from "react-toastify";
 
 
@@ -22,7 +22,8 @@ const load = storage.createLoader(engine);
 load(store)
     .then((newState) => {
         //dispatch({ type: LOGIN_KEY, value: newState.tokenReducer.token })
-        store.dispatch({ type: LOGIN_KEY, value: newState.tokenReducer.token });
+        store.dispatch({ type: REDUX_KEY.LOGIN, value: newState.tokenReducer.token });
+        store.dispatch({ type: REDUX_KEY.RESTORE, value: newState.cartReducer.cart });
         console.log('Loaded state:', newState)
     })
     .catch(() => console.log('Failed to load previous state'));

@@ -16,12 +16,13 @@ import Logo from './../assets/img/logo/logo2.jpg';
 import Link from '@material-ui/core/Link';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import { LOGIN_KEY } from '../redux/ReduxKeys';
+import REDUX_KEY from '../redux/ReduxKeys';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
         grow: {
             flexGrow: 1,
+
         },
         tabNav: {
             backgroundColor: "#F3F3F3",
@@ -93,26 +94,34 @@ const useStyles = makeStyles((theme) =>
     }),
 );
 
+
+
 export default function PrimarySearchAppBar() {
+
+    const menuId = 'primary-search-account-menu';
+
     const classes = useStyles();
+
     const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const login = useSelector(state => state.tokenReducer);
+    const loginReducer = useSelector(state => state.tokenReducer);
+
+    const cartReducer = useSelector(state => state.cartReducer);
 
     const dispatch = useDispatch();
 
     const history = useHistory();
 
-    const [isConnected, setIsConnected] = React.useState(login.token === undefined || login.token === "" ? false : true);
+    const [isConnected, setIsConnected] = React.useState(loginReducer.token === undefined || loginReducer.token === "" ? false : true);
 
     const isMenuOpen = Boolean(anchorEl);
 
     useEffect(() => {
-        if (login.token === undefined || login.token === "")
+        if (loginReducer.token === undefined || loginReducer.token === "")
             setIsConnected(false);
         else
             setIsConnected(true);
-    }, [login.token])
+    }, [loginReducer.token, cartReducer])
 
 
     const handleProfileMenuOpen = (event) => {
@@ -124,12 +133,20 @@ export default function PrimarySearchAppBar() {
         history.push(route)
     };
 
+    const renderCart = (
+        <IconButton onClick={() => history.push("/user/cart")} aria-label="show 17 items presents on cart" color="inherit" >
+            <Badge badgeContent={cartReducer.cart.length} color="secondary">
+                <ShoppingCartIcon />
+            </Badge>
+        </IconButton>
+    )
+
     const connectedMenu = (
         [
             <MenuItem key={"PROFIL"} onClick={() => handleMenuClose('/user/profile')}>Mon profil</MenuItem>,
             <MenuItem key={"PLUGINS"} onClick={() => handleMenuClose('/user/plugins')}>Mes plugins</MenuItem>,
             <MenuItem key={"CART"} onClick={() => handleMenuClose('/user/cart')}>Mon panier</MenuItem>,
-            <MenuItem key={"DISCONNEXION"} onClick={() => { dispatch({ type: LOGIN_KEY, value: "" }); setAnchorEl(null); }}>Se deconnecter</MenuItem>
+            <MenuItem key={"DISCONNEXION"} onClick={() => { dispatch({ type: REDUX_KEY.LOGIN, value: "" }); setAnchorEl(null); }}>Se deconnecter</MenuItem>
         ]
 
 
@@ -143,7 +160,6 @@ export default function PrimarySearchAppBar() {
 
     );
 
-    const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
             anchorEl={anchorEl}
@@ -169,6 +185,7 @@ export default function PrimarySearchAppBar() {
             <AppBar className={classes.tabNav} position="static">
                 <Toolbar>
                     <IconButton
+                        href={"/"}
                         edge="start"
                         className={classes.menuButton}
                         aria-label="open drawer"
@@ -204,11 +221,10 @@ export default function PrimarySearchAppBar() {
                                 inputProps={{ 'aria-label': 'search' }}
                             />
                         </div>
-                        <IconButton aria-label="show 17 items presents on cart" color="inherit">
-                            <Badge badgeContent={17} color="secondary">
-                                <ShoppingCartIcon />
-                            </Badge>
-                        </IconButton>
+                        {
+                            isConnected ? renderCart : ""
+                        }
+
                         <IconButton
                             edge="end"
                             aria-label="account of current user"

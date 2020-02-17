@@ -61,7 +61,7 @@ export default function UserPlugins(props) {
     return (
         <>
             <Grid container spacing={3} direction="column">
-                <Grid item xs={6}>
+                    <Grid item xs={6}>
                     <Grid item>
 
                         <TextField label={'Nom'} onChange={handleNameChange}>Nom</TextField>
@@ -73,7 +73,8 @@ export default function UserPlugins(props) {
                         <TextField label={'Description'} onChange={handleDescriptionChange}>Description</TextField>
 
                     </Grid>
-                    <Grid item>
+
+                        <Grid item>
                         <Button
                             variant="contained"
                             component="label"
@@ -81,11 +82,11 @@ export default function UserPlugins(props) {
                             Ajouter une image
                             <Input
                                 type="file"
-                                style={{display: "none"}}
+                                style={{ display: "none" }}
                                 onChange={handleImageChange}
                             />
                         </Button>
-                    </Grid>
+                        </Grid>
                     <Grid item>
                         <Button
                             variant="contained"
@@ -99,9 +100,9 @@ export default function UserPlugins(props) {
                             />
                         </Button>
                     </Grid>
-                    <Button type="submit" onClick={handleSubmit}>Valider</Button>
-                </Grid>
 
+                <Button type="submit" onClick={handleSubmit}>Valider</Button>
+                </Grid>
             </Grid>
 
         </>

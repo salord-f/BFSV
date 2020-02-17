@@ -4,6 +4,6 @@ import AdminPage from './Admin/Home'
 import Plugins from './PluginsList/Plugins'
 import Profile from './User/Profile'
 import UserPlugins from './User/UserPlugins'
-import Cart from './User/Cart'
+import Cart from './User/Cart/CartComponent'
 
-export {LoginPage, AdminPage, Details, Plugins, Profile, UserPlugins, Cart}
+export { LoginPage, AdminPage, Details, Plugins, Profile, UserPlugins, Cart }

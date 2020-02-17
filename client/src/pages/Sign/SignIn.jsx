@@ -10,7 +10,7 @@ import { useStyles } from './signStyle';
 import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux'
 import api from './../../api'
-import { LOGIN_KEY } from '../../redux/ReduxKeys';
+import REDUX_KEY from '../../redux/ReduxKeys';
 
 const validateEmail = (email) => {
     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -59,7 +59,7 @@ export default function SignInSide(props) {
         console.log(JSON.stringify(payload));
         await api.connectToAccount(payload).then(res => {
             let update = {
-                type: LOGIN_KEY,
+                type: REDUX_KEY.LOGIN,
                 value: res.data
             }
             dispatch(update);

@@ -1,4 +1,4 @@
-import { LOGIN_KEY } from './ReduxKeys'
+import KEY from './ReduxKeys'
 import { combineReducers } from 'redux';
 
 
@@ -9,7 +9,7 @@ const initialTokenState = {
 const loginReducer = (state = initialTokenState, action) => {
     switch (action.type) {
         // Increase Counter
-        case LOGIN_KEY: {
+        case KEY.LOGIN: {
             return {
                 // State
                 ...state,
@@ -25,34 +25,49 @@ const loginReducer = (state = initialTokenState, action) => {
     }
 };
 
-const initialCounterState = {
-    counter: 0,
+const initialCartState = {
+    cart: [],
 };
 
 // Reducers (Modifies The State And Returns A New State)
-const counterReducer = (state = initialCounterState, action) => {
+const cartReducer = (state = initialCartState, action) => {
     switch (action.type) {
-        // Increase Counter
-        case 'INCREASE_COUNTER': {
+        case KEY.ADD_ITEM: {
+            let newCart = state.cart;
+            newCart.push(action.value);
             return {
-                // State
                 ...state,
-                // Redux Store
-                counter: state.counter + 1,
+                cart: newCart,
+            }
+        }
+
+        case KEY.RESTORE: {
+            return {
+                ...state,
+                cart: action.value,
+            }
+        }
+
+        case KEY.REMOVE_ITEM: {
+            let indexOfItem = state.cart.findIndex((el) => el.id === action.value);
+            let newCart = state.cart;
+            if (indexOfItem >= 0)
+                newCart.splice(indexOfItem, 1);
+
+            return {
+                ...state,
+                cart: newCart
             }
         }
 
         // Decrease Counter
-        case 'DECREASE_COUNTER': {
+        case KEY.REMOVE_ALL_ITEMS: {
             return {
-                // State
                 ...state,
-                // Redux Store
-                counter: state.counter - 1,
+                cart: [],
             }
         }
 
-        // Default
         default: {
             return state;
         }
@@ -62,7 +77,7 @@ const counterReducer = (state = initialCounterState, action) => {
 
 const rootReducer = combineReducers({
     tokenReducer: loginReducer,
-    counterReducer: counterReducer,
+    cartReducer: cartReducer,
 });
 
 export default rootReducer;
