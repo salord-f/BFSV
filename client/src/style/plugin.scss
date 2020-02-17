@@ -2,13 +2,13 @@
     margin-top: 2vh;
     margin-bottom: 2vh;
     max-width: 22vw;
-    height: fit-content;
+    height: 60vh;
 }
 
 .media {
+    height: 69%;
     margin: auto;
-    //max-height: 300px;
-    max-width: 70%;
+    max-width: 235px;
 }
 
 .title {
@@ -18,7 +18,7 @@
 }
 
 .description {
-    margin: auto;
+    margin: auto auto 0;
     color: white;
     text-align: center;
 }
@@ -28,6 +28,10 @@
 }
 
 .mediaImage {
-    //height: 300px;
     width: 100%;
+    margin: auto;
+}
+
+.clickableCard {
+    height: 100%;
 }

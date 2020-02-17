@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
 import Plugin from "./Plugin";
-import axios from 'axios'
 
 import "../../style/plugins.scss"
+import api from "../../api";
 
 export default function Plugins() {
     const [plugins, setPlugins] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/plugins/').then(result => setPlugins(result.data.data));
+        api.getPlugins().then(result => setPlugins(result.data.data));
     }, []);
 
     return (

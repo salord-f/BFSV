@@ -9,11 +9,13 @@ const api = axios.create({
 export const createPlugin = (payload, headers) => api.post('/plugins', payload, headers);
 export const createAnAccount = payload => api.post('users', payload);
 export const connectToAccount = payload => api.post('users/login', payload);
+export const getPlugins = () => api.get('/plugins');
 
 const apis = {
     createPlugin,
     createAnAccount,
-    connectToAccount
+    connectToAccount,
+    getPlugins
 };
 
 export default apis
