@@ -5,6 +5,8 @@ const fs = require('fs');
 const yauzl = require('yauzl');
 const unzip = require('../utils/unzip');
 const error = require('../utils/utils');
+const ObjectId = require('mongoose').Types.ObjectId;
+
 
 createPlugin = (req, res) => {
     const body = req.body;
@@ -62,6 +64,7 @@ createPlugin = (req, res) => {
 };
 
 updatePlugin = async (req, res) => {
+
     const body = req.body;
 
     if (!body) {
@@ -70,7 +73,9 @@ updatePlugin = async (req, res) => {
             error: 'You must provide a body to update a plugin.',
         })
     }
-
+    if(!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({success: false, error: 'Invalid id.'})
+    }
     Plugin.findOne({_id: req.params.id}, (err, plugin) => {
         if (err) {
             return res.status(404).json({
@@ -101,6 +106,9 @@ updatePlugin = async (req, res) => {
 };
 
 deletePlugin = async (req, res) => {
+    if(!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({success: false, error: 'Invalid id.'})
+    }
     await Plugin.findOneAndDelete({_id: req.params.id}, (err, plugin) => {
         if (err) {
             return res.status(400).json({success: false, error: err})
@@ -117,6 +125,9 @@ deletePlugin = async (req, res) => {
 };
 
 getPluginById = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({success: false, error: 'Invalid id.'})
+    }
     await Plugin.findOne({_id: req.params.id}, (err, plugin) => {
         if (err) {
             return res.status(400).json({success: false, error: err})
@@ -128,6 +139,9 @@ getPluginById = async (req, res) => {
 
 getPluginImage = async (req, res) => {
     console.log('getting plugin');
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({success: false, error: 'Invalid id.'})
+    }
     await Plugin.findOne({_id: req.params.id}, (err, plugin) => {
         if (err) {
             return res.status(400).json({success: false, error: err})
@@ -142,9 +156,7 @@ getPlugins = async (req, res) => {
             return res.status(400).json({success: false, error: err})
         }
         if (!plugin.length) {
-            return res
-                .status(404)
-                .json({success: false, error: `No plugin.`})
+            return res.status(200).json({success: true, error: `No plugin.`})
         }
         return res.status(200).json({success: true, data: plugin})
     }).catch(err => console.log(err))

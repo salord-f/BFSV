@@ -42,7 +42,7 @@ function Error() {
     return (
         <div style = {{
             width: "100vw",
-            "text-align": "center"
+            textAlign: "center"
         }}>
             <img style={{
                 width: "80vh",
