@@ -1,5 +1,4 @@
 const Plugin = require('../models/plugin');
-const Comment = require('../models/comment');
 
 const fs = require('fs');
 

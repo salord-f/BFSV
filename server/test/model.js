@@ -1,7 +1,6 @@
 const assert = require('assert');
 
 const User = require('../models/user');
-const Comment = require('../models/comment');
 
 const Mongo = require('../db/index');
 
@@ -37,7 +36,7 @@ describe('Model', function () {
             await user.save();
             Mongo.collection('users').findOneAndDelete({mail: user.mail})
         });
-        it('should add a comment', async () => {
+        /*it('should add a comment', async () => {
             const user = new User;
             console.log(user._id);
             user.mail = generateString(10) + '@email.com';
@@ -51,6 +50,6 @@ describe('Model', function () {
             assert('Content' === JSON.parse(JSON.stringify(result)).content);
             Mongo.collection('users').findOneAndDelete({mail: user.mail});
             Mongo.collection('comments').findOneAndDelete({_id: comment._id})
-        });
+        });*/
     })
 });

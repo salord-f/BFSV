@@ -13,4 +13,8 @@ router.get('/', auth, UserController.getUsers);
 
 router.post('/login', UserController.login);
 
+router.put('/:id/cart', UserController.addToCart);
+router.delete('/:id/cart', UserController.deleteFromCart);
+
+
 module.exports = router;
