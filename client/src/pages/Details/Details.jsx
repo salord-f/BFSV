@@ -15,7 +15,8 @@ import axios from 'axios';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 
-import '../style/details.scss'
+import '../../style/details.scss'
+import Comment from "./Comment";
 
 function CategoryItem(props) {
     return <Button style={{marginLeft:"10px",background:"lightblue"}}>
@@ -24,7 +25,7 @@ function CategoryItem(props) {
 }
 
 function TagItem(props) {
-    return <Chip className="tagItem" color={"primary"} variant={"outlined"} label={props.item}/>
+    return <Chip className="tagItem" variant={"outlined"} label={props.item}/>
 }
 
 function youTube(videoId) {
@@ -46,7 +47,7 @@ function Error() {
             <img style={{
                 width: "80vh",
                 height: "80vh"
-            }} src={require("../assets/img/error.jpg")}
+            }} src={require("../../assets/img/error.jpg")}
             />
         </div>
 
@@ -64,44 +65,6 @@ function codeLink(link) {
         )
     }
 }
-
-//TODO move to new file
-function Comment(props){
-    let time = new Date(props.comment.time);
-    let timeString = time.getDate()+"/";
-    let month = parseInt(time.getMonth())+1;
-    if(month>9){
-        timeString+=month+"/";
-    }else {
-        timeString+="0"+month+"/";
-    }
-    timeString+=time.getFullYear()
-    return(
-        <Card className="comment" variant="outlined" style={{background:"WhiteSmoke"}}>
-            <Grid container direction="column" alignItems={"flex-start"}>
-                <Grid item xs={12} style={{marginLeft:"10px",marginTop:"5px"}}>
-                    <Typography style={{fontWeight:"bold"}}>
-                        {props.comment.authorMail}
-                    </Typography>
-                </Grid>
-            </Grid>
-            <Grid container direction="column" alignItems={"flex-end"} >
-                <Grid item xs={12} style={{marginLeft:"10px"}}>
-                    <Typography>
-                        {props.comment.content}
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} style={{marginRight:"10px",marginBottom:"5px"}}>
-                    <Typography color="textSecondary" style={{fontSize:"14px"}}>
-                        {timeString}
-                    </Typography>
-                </Grid>
-            </Grid>
-        </Card>
-    )
-}
-
-
 
 function Details(props){
 

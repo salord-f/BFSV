@@ -1,3 +1,3 @@
-import Details from "../pages/Details";
+import Details from "../pages/Details/Details";
 
 export { Details }

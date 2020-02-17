@@ -1,4 +1,4 @@
-import Details from "./Details";
+import Details from "./Details/Details";
 import LoginPage from './Sign/SignView'
 import AdminPage from './Admin/Home'
 import Plugins from './PluginsList/Plugins'
