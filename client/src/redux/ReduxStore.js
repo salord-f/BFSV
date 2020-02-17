@@ -49,7 +49,7 @@ const cartReducer = (state = initialCartState, action) => {
         }
 
         case KEY.REMOVE_ITEM: {
-            let indexOfItem = state.cart.findIndex((el) => el.id === action.value);
+            let indexOfItem = state.cart.findIndex((el) => el._id === action.value);
             let newCart = state.cart;
             if (indexOfItem >= 0)
                 newCart.splice(indexOfItem, 1);

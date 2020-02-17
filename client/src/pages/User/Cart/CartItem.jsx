@@ -20,13 +20,13 @@ const CartItemCard = (props) => {
     const removeItemFromCard = () => {
         let request = {
             type: REDUX_KEY.REMOVE_ITEM,
-            value: props.plugin.id
+            value: props.plugin._id
         }
         dispatch(request)
 
     }
 
-    const imageURL = "http://localhost:3000/plugins/" + props.plugin.id + "/image";
+    const imageURL = "http://localhost:3000/plugins/" + props.plugin._id + "/image";
 
     return (
         <Card className="cart-card" style={{ backgroundColor: "#80808029" }}>
@@ -38,7 +38,7 @@ const CartItemCard = (props) => {
 
             <CardContent className="cart-descriptionCard">
 
-                <Link href={"/plugins/" + props.plugin.id}>
+                <Link href={"/plugins/" + props.plugin._id}>
                     <Typography gutterBottom variant="h5" className="cart-title">
                         {props.plugin.name ? props.plugin.name : ""}
                     </Typography>
