@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const categories = require('./categories');
+const comment = require('./comment');
 
 const plugin = new Schema(
     {
@@ -14,7 +15,7 @@ const plugin = new Schema(
         tags: [String],
         youtubeLink: String,
         likes: [String], // user mails
-        comments: [{type: mongoose.Schema.ObjectId, ref: 'comments'}],
+        comments: [{type: comment, ref: 'comments'}],
         status: {
             available: {type: Boolean, default: false},
             automaticValidation: {type: Boolean, default: false},
