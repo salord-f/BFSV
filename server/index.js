@@ -24,6 +24,12 @@ app.get('/', auth, (req, res) => {
 app.use('/plugins', pluginRouter);
 app.use('/users', userRouter);
 
+
+process.on('unhandledRejection', (error, promise) => {
+    console.log('Oh Lord! We forgot to handle a promise rejection here: ', promise);
+    console.log('The error was: ', error);
+});
+
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
 module.exports = app;

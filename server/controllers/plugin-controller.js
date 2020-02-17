@@ -1,7 +1,6 @@
 const Plugin = require('../models/plugin');
 
 const fs = require('fs');
-const zlib = require('zlib');
 
 const yauzl = require('yauzl');
 const unzip = require('../utils/unzip');
@@ -10,11 +9,34 @@ createPlugin = (req, res) => {
     const body = req.body;
 
     if (!body) {
+        console.log('Error : plugin upload without information');
         return res.status(400).json({
             success: false,
-            error: 'You must provide a plugin.',
+            error: 'You must provide a plugin.'
         })
     }
+    if (!body.name || !body.description || !body.version) {
+        console.log('Error : plugin upload without information');
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a plugin.'
+        })
+    }
+    if( !req.files.image) {
+        console.log('Error : plugin upload without image');
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide an image.'
+        })
+    }
+    if( !req.files.plugin) {
+        console.log('Error : plugin upload without zip');
+        return res.status(400).json({
+            success: false,
+            error: 'You must provide a zip.'
+        })
+    }
+
     console.log(req.files.image[0].path);
     console.log(req.files.plugin[0].path);
 
