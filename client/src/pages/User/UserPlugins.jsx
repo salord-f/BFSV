@@ -93,9 +93,7 @@ export default function UserPlugins(props) {
                         >
                             Code du plugin
                             <input
-                                directory="" webkitdirectory=""
                                 type="file"
-                                multiple
                                 style={{display: "none"}}
                                 onChange={handlePluginChange}
                             />
