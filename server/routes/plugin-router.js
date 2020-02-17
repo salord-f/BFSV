@@ -24,7 +24,10 @@ router.post('/', upload.fields([{name: 'image'}, {name: 'plugin'}]), PluginContr
 router.put('/:id', PluginController.updatePlugin);
 router.delete('/:id', PluginController.deletePlugin);
 router.get('/:id', PluginController.getPluginById);
-router.get('/:id/image', PluginController.getPluginImage);
 router.get('/', PluginController.getPlugins);
+
+router.get('/:id/image', PluginController.getPluginImage);
+
+router.post('/:id/comments', PluginController.addComment);
 
 module.exports = router;

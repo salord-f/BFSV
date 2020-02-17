@@ -1,4 +1,5 @@
 const Plugin = require('../models/plugin');
+const Comment = require('../models/comment');
 
 const fs = require('fs');
 
@@ -170,11 +171,30 @@ getPlugins = async (req, res) => {
     }).catch(err => console.log(err))
 };
 
+addComment = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({success: false, error: 'Invalid id.'})
+    }
+    if (!req.body) {
+        error.errorHandler(res, 'Trying to add a comment without content.');
+    }
+    await Plugin.findOne({_id: req.params.id}, (err, plugin) => {
+        if (err) {
+            return res.status(400).json({success: false, error: err})
+        }
+        const comment = new Comment(req.body);
+        plugin.comments.push(comment);
+        return res.status(200).json({success: true, data: plugin.comments})
+    }).catch(err => console.log(err))
+};
+
+
 module.exports = {
     createPlugin,
     updatePlugin,
     deletePlugin,
     getPlugins,
     getPluginById,
-    getPluginImage
+    getPluginImage,
+    addComment
 };
