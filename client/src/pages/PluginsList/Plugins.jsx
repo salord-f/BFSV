@@ -13,9 +13,9 @@ export default function Plugins() {
 
     return (
         <div className="pluginsGrid">
-            {plugins.map((plugin) => (
+            {plugins ? plugins.map((plugin) => (
                 <Plugin name={plugin.name} description={plugin.description} id={plugin._id} key={plugin._id + plugin.name}/>
-            ))}
+            )): ''}
         </div>
 
     )

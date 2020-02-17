@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Grid, TextField} from "@material-ui/core";
-import axios from 'axios';
 import Input from "@material-ui/core/Input";
+import api from './../../api'
 
 
 export default function UserPlugins(props) {
@@ -22,7 +22,7 @@ export default function UserPlugins(props) {
         formData.append('plugin', plugin);
         formData.append('author', "me");
 
-        const req = await axios.post('http://localhost:3000/plugins', formData, {
+        const req = await api.createPlugin(formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

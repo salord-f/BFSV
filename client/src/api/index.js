@@ -3,7 +3,7 @@ import axios from 'axios'
 const api = axios.create({
     baseURL: 'http://localhost:3000/',
 });
-
+export const createPlugin = (payload, headers) => api.post('/plugins', payload, headers);
 export const createAnAccount = payload => api.post('users', payload);
 export const connectToAccount = payload => api.post('users/login', payload);
 export const insertMovie = payload => api.post(`/movie`, payload);
@@ -13,6 +13,7 @@ export const deleteMovieById = id => api.delete(`/movie/${id}`);
 export const getMovieById = id => api.get(`/movie/${id}`);
 
 const apis = {
+    createPlugin,
     insertMovie,
     getAllMovies,
     updateMovieById,

@@ -23,22 +23,27 @@ createPlugin = (req, res) => {
     }
 
     console.log('image');
-    console.log(req.files.image[0].path);
+    const image = req.files.image[0];
+    const pluginZip = req.files.plugin[0];
+    console.log(image.path);
     console.log('zip');
-    console.log(req.files.plugin[0].path);
+    console.log(pluginZip);
 
-    yauzl.open(req.files.plugin[0].path, {lazyEntries: true}, function (err, zipfile) {
+    yauzl.open(pluginZip.path, {lazyEntries: true}, function (err, zipfile) {
         if (err) throw err;
         unzip(err, zipfile, req.files.plugin[0].path.slice(0, -4));
-        fs.rename(req.files.image[0].path, req.files.plugin[0].path.slice(0, -4) + '/' + req.files.image[0].originalname, function (err, res) {
-            console.log(err);
-            console.log(res);
-        });
     });
 
-    body.image = req.files.plugin[0].path.slice(0, -4) + '/' + req.files.image[0].originalname;
-    body.zipLocation = req.files.plugin[0].path;
-    body.tryLink = req.files.plugin[0].path.slice(0, -4);
+    fs.rename(image.path, 'uploads/images/' + pluginZip.originalname.slice(0, -4) + '-' + image.originalname, function (err) {
+        if (err) {
+            console.log('Unable to copy image to plugin folder.');
+        }
+    });
+
+
+    body.image = 'uploads/images/' + pluginZip.originalname.slice(0, -4) + '-' + image.originalname;
+    body.zipLocation = pluginZip.path;
+    body.tryLink = pluginZip.path.slice(0, -4);
 
     const plugin = new Plugin(body);
     if (!plugin) {

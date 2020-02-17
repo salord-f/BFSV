@@ -18,7 +18,6 @@ import ImageAsync from 'react-image-async';
 
 import '../../style/details.scss'
 import Comment from "./Comment";
-import {Image} from "@material-ui/icons";
 
 function CategoryItem(props) {
     return <Button style={{marginLeft:"10px",background:"lightblue"}}>
@@ -127,7 +126,7 @@ function Details(props){
                         <Grid item xs={3}>
                             <ImageAsync  src={plugin.image}>
                                 {({ loaded, error }) =>
-                                    loaded ? <img className="detailImage" src={plugin.image} /> : <div>Loading...</div>
+                                    loaded ? <img alt="Loading..." className="detailImage" src={plugin.image} /> : <div>Loading...</div>
                                 }
                             </ImageAsync>
                         </Grid>
