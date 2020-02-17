@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import YouTube from 'react-youtube';
 
@@ -13,10 +13,12 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import ImageAsync from 'react-image-async';
 
 
 import '../../style/details.scss'
 import Comment from "./Comment";
+import {Image} from "@material-ui/icons";
 
 function CategoryItem(props) {
     return <Button style={{marginLeft:"10px",background:"lightblue"}}>
@@ -74,16 +76,15 @@ function Details(props){
     let x = Date.now();
 
     useEffect( () => {
-            axios.get("http://localhost:3000/plugins/"+props.match.params.id).then((response)=>{
-                setPlugin(response.data.data);
-                console.log(response.data.data);
-                //axios.get("http://localhost:3000/plugins/5e417f4b56e4d01414d7c151/image").then((response)=>{
-                    //console.log("Response oui : "+response)
-                //})
-            })
-                .catch(err => {
-                    setError(true);
-                })
+        axios.get("http://localhost:3000/plugins/" + props.match.params.id).then((response) => {
+            let plugin = response.data.data;
+            plugin.image = "http://localhost:3000/plugins/"+ plugin._id + "/image";
+            setPlugin(plugin);
+            console.log(plugin);
+        })
+            .catch(err => {
+                setError(true);
+            });
     }, []);
 
     let testplugin = {
@@ -124,7 +125,11 @@ function Details(props){
                 <Card className="detailCard" variant="outlined">
                     <Grid container spacing={3}>
                         <Grid item xs={3}>
-                            {/*<img className="detailImage" src={require("../assets/images/"+plugin.image)}/>*/}
+                            <ImageAsync  src={plugin.image}>
+                                {({ loaded, error }) =>
+                                    loaded ? <img className="detailImage" src={plugin.image} /> : <div>Loading...</div>
+                                }
+                            </ImageAsync>
                         </Grid>
                         <Grid item xs={9}>
                             <Grid container justify="flex-start" style={{marginTop: "20px"}}>

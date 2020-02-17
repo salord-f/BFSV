@@ -6,6 +6,7 @@ const yauzl = require('yauzl');
 const unzip = require('../utils/unzip');
 const error = require('../utils/utils');
 const ObjectId = require('mongoose').Types.ObjectId;
+const path = require('path');
 
 
 createPlugin = (req, res) => {
@@ -21,16 +22,18 @@ createPlugin = (req, res) => {
         error.errorHandler(res, 'Plugin upload without zip.');
     }
 
+    console.log('image');
     console.log(req.files.image[0].path);
+    console.log('zip');
     console.log(req.files.plugin[0].path);
 
     yauzl.open(req.files.plugin[0].path, {lazyEntries: true}, function (err, zipfile) {
         if (err) throw err;
         unzip(err, zipfile, req.files.plugin[0].path.slice(0, -4));
-    });
-
-    fs.rename(req.files.image[0].path, req.files.plugin[0].path.slice(0, -4) + '/' + req.files.image[0].originalname, function (err, res) {
-        console.log(res);
+        fs.rename(req.files.image[0].path, req.files.plugin[0].path.slice(0, -4) + '/' + req.files.image[0].originalname, function (err, res) {
+            console.log(err);
+            console.log(res);
+        });
     });
 
     body.image = req.files.plugin[0].path.slice(0, -4) + '/' + req.files.image[0].originalname;
@@ -73,7 +76,7 @@ updatePlugin = async (req, res) => {
             error: 'You must provide a body to update a plugin.',
         })
     }
-    if(!ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({success: false, error: 'Invalid id.'})
     }
     Plugin.findOne({_id: req.params.id}, (err, plugin) => {
@@ -106,7 +109,7 @@ updatePlugin = async (req, res) => {
 };
 
 deletePlugin = async (req, res) => {
-    if(!ObjectId.isValid(req.params.id)) {
+    if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({success: false, error: 'Invalid id.'})
     }
     await Plugin.findOneAndDelete({_id: req.params.id}, (err, plugin) => {
@@ -146,7 +149,7 @@ getPluginImage = async (req, res) => {
         if (err) {
             return res.status(400).json({success: false, error: err})
         }
-        return res.status(200).sendFile(__dirname + '/../' + plugin.image);
+        return res.status(200).sendFile(path.resolve(plugin.image));
     }).catch(err => console.log(err))
 };
 
