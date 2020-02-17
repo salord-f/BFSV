@@ -21,7 +21,7 @@ const plugin = new Schema(
             manualValidation: {type: Boolean, default: false},
         },
         tryLink: String,
-        price: Number,
+        price: {type: Number, default: 0},
         zipLocation: String,
     },
     {timestamps: true}
