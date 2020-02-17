@@ -37,19 +37,19 @@ function youTube(videoId) {
     }
 }
 
-function Error(){
-    return(
-        <div style={{marginLeft:"auto",marginRight:"auto",maxHeight:"1024px",maxWidth:"1024px",position:"relative"}}>
-            <img src={require("../assets/img/error.jpg")}/>
-            <p style={{color:"hotpink",position:"absolute",marginTop:"-1050px",marginLeft:"50px",fontSize:"150px"}}>F</p>
-            <p style={{color:"hotpink",position:"absolute",marginTop:"-930px",marginLeft:"50px",fontSize:"150px"}}>I</p>
-            <p style={{color:"hotpink",position:"absolute",marginTop:"-810px",marginLeft:"50px",fontSize:"150px"}}>L</p>
-            <p style={{color:"hotpink",position:"absolute",marginTop:"-690px",marginLeft:"50px",fontSize:"150px"}}>E</p>
-            <p style={{color:"hotpink",position:"absolute",marginTop:"-470px",marginLeft:"50px",fontSize:"150px"}}>N</p>
-            <p style={{color:"hotpink",position:"absolute",marginTop:"-350px",marginLeft:"50px",fontSize:"150px"}}>O</p>
-            <p style={{color:"hotpink",position:"absolute",marginTop:"-230px",marginLeft:"50px",fontSize:"150px"}}>T</p>
-            <p style={{color:"green",position:"absolute",marginTop:"-230px",marginLeft:"200px",fontSize:"150px"}}>FOUND</p>
+function Error() {
+    return (
+        <div style = {{
+            width: "100vw",
+            "text-align": "center"
+        }}>
+            <img style={{
+                width: "80vh",
+                height: "80vh"
+            }} src={require("../assets/img/error.jpg")}
+            />
         </div>
+
     )
 }
 
