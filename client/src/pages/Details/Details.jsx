@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -17,15 +18,11 @@ import ImageAsync from 'react-image-async';
 
 
 import './../../style/details.scss'
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import REDUX_KEY from '../../redux/ReduxKeys';
 
 import Comment from "./Comment";
-
-toast.configure({
-    autoClose: 6000,
-    draggable: false
-});
+import apis from "../../api";
 
 function CategoryItem(props) {
     return <Button style={{ marginLeft: "10px", background: "lightblue" }}>
@@ -67,7 +64,7 @@ function addToCard(plugin, dispatch) {
     let ADD_ITEM_TO_CART = {
         type: REDUX_KEY.ADD_ITEM,
         value: plugin
-    }
+    };
     dispatch(ADD_ITEM_TO_CART);
     toast.success("Plugin " + plugin.name + " added to cart.");
 }
@@ -86,15 +83,42 @@ function codeLink(link) {
 
 function Details(props) {
 
-    const [plugin, setPlugin] = useState('');
-    const [error, setError] = useState(false);
+    function handleCommentChange(e) {
+        setComment(e.target.value);
+    }
+
+    function addComment() {
+        let plug = plugin;
+        let comments = plug.comments;
+        let x = Date.now();
+        let newCom = {
+            authorMail: "temp@mail.com",
+            content: comment,
+            time: x,
+        };
+
+
+        apis.addComment(props.match.params.id,newCom);
+
+        comments.push(newCom);
+        plug.comments = comments;
+        setPlugin(plug);
+        setComment('');
+    }
+
+    const [plugin,setPlugin] = useState('');
+    const [error,setError] = useState(false);
+    const [comment,setComment] = useState('');
+    const login = useSelector(state => state.tokenReducer);
+    const isConnected = login.token === undefined || login.token === "";
 
     const dispatch = useDispatch();
 
     let x = Date.now();
 
-    useEffect(() => {
-        axios.get("http://localhost:3000/plugins/" + props.match.params.id).then((response) => {
+    useEffect( () => {
+        apis.getPlugin(props.match.params.id).then((response) => {
+            console.log(response.data.data);
             let plugin = response.data.data;
             plugin.image = "http://localhost:3000/plugins/" + plugin._id + "/image";
             setPlugin(plugin);
@@ -210,28 +234,32 @@ function Details(props) {
                                     <Typography className="detailTitle" color="textSecondary" gutterBottom>
                                         Description
                                 </Typography>
-                                    <Typography variant="body2" component="p">
-                                        {plugin.description}
-                                    </Typography>
-                                </CardContent>
-                            </Grid>
-                            <Grid item xs={12}>
-                                {youTube(plugin.youtubeLink)}
-                            </Grid>
+                                <Typography variant="body2" component="p">
+                                    {plugin.description}
+                                </Typography>
+                            </CardContent>
                         </Grid>
-                        <CardActions>
-                            <Button size="small" href={plugin.tryLink}>Try now</Button>
-                        </CardActions>
-                    </Card>
-                </Grid>
-                <Grid item xs={8} style={{ marginTop: "20px" }}>
+                        <Grid item xs={12}>
+                            {youTube(plugin.youtubeLink)}
+                        </Grid>
+                    </Grid>
+                    <CardActions>
+                        <Button size="small" href={plugin.tryLink}>Try now</Button>
+                    </CardActions>
+                </Card>
+            </Grid>
+            <Grid item xs={8} style={{marginTop:"20px",width:"100%"}}>
                     {
                         plugin.comments &&
                         plugin.comments.map((item, index) => (
                             <Comment key={index} comment={item} />))
                     }
-                </Grid>
             </Grid>
+            <Grid item xs={8} style={{marginTop:"20px",width:"100%"}}>
+                <TextField id="commentField" disabled={isConnected} multiline fullWidth variant="outlined" placeholder="Add a comment" value={comment} onChange={handleCommentChange}/>
+                <Button variant="contained" disabled={isConnected} style={{float:"right",marginTop:"5px"}} onClick={() => addComment()}>Add comment</Button>
+            </Grid>
+        </Grid>
     );
 }
 

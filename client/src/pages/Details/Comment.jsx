@@ -21,13 +21,13 @@ function Comment(props){
                         {props.comment.authorMail}
                     </Typography>
                 </Grid>
-            </Grid>
-            <Grid container direction="column" alignItems={"flex-end"} >
                 <Grid item xs={12} style={{marginLeft:"10px"}}>
                     <Typography>
                         {props.comment.content}
                     </Typography>
                 </Grid>
+            </Grid>
+            <Grid container direction="column" alignItems={"flex-end"} >
                 <Grid item xs={12} style={{marginRight:"10px",marginBottom:"5px"}}>
                     <Typography color="textSecondary" style={{fontSize:"14px"}}>
                         {timeString}
