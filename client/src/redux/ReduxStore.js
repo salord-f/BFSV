@@ -3,18 +3,19 @@ import { combineReducers } from 'redux';
 
 
 const initialTokenState = {
-    token: "",
+    user: undefined,
 };
 
 const loginReducer = (state = initialTokenState, action) => {
     switch (action.type) {
         // Increase Counter
         case KEY.LOGIN: {
+            console.log("UPDATE USER ")
             return {
                 // State
                 ...state,
                 // Redux Store
-                token: action.value,
+                user: action.value,
             }
         }
 

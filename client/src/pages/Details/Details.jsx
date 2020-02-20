@@ -11,14 +11,13 @@ import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import axios from 'axios';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ImageAsync from 'react-image-async';
 
 
 import './../../style/details.scss'
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import REDUX_KEY from '../../redux/ReduxKeys';
 
 import Comment from "./Comment";
@@ -98,7 +97,7 @@ function Details(props) {
         };
 
 
-        apis.addComment(props.match.params.id,newCom);
+        apis.addComment(props.match.params.id, newCom);
 
         comments.push(newCom);
         plug.comments = comments;
@@ -106,17 +105,17 @@ function Details(props) {
         setComment('');
     }
 
-    const [plugin,setPlugin] = useState('');
-    const [error,setError] = useState(false);
-    const [comment,setComment] = useState('');
+    const [plugin, setPlugin] = useState('');
+    const [error, setError] = useState(false);
+    const [comment, setComment] = useState('');
     const login = useSelector(state => state.tokenReducer);
-    const isConnected = login.token === undefined || login.token === "";
+    const isConnected = !(login.user === undefined);
 
     const dispatch = useDispatch();
 
     let x = Date.now();
 
-    useEffect( () => {
+    useEffect(() => {
         apis.getPlugin(props.match.params.id).then((response) => {
             console.log(response.data.data);
             let plugin = response.data.data;
@@ -234,16 +233,16 @@ function Details(props) {
                                     <Typography className="detailTitle" color="textSecondary" gutterBottom>
                                         Description
                                 </Typography>
-                                <Typography variant="body2" component="p">
-                                    {plugin.description}
-                                </Typography>
-                            </CardContent>
+                                    <Typography variant="body2" component="p">
+                                        {plugin.description}
+                                    </Typography>
+                                </CardContent>
+                            </Grid>
+                            <Grid item xs={12}>
+                                {youTube(plugin.youtubeLink)}
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                            {youTube(plugin.youtubeLink)}
-                        </Grid>
-                    </Grid>
-                    <CardActions>
+                        <CardActions>
                         <Button size="small" href={tryURL + plugin.tryLink} target="_blank">Try now</Button>
                     </CardActions>
                 </Card>
@@ -254,12 +253,12 @@ function Details(props) {
                         plugin.comments.map((item, index) => (
                             <Comment key={index} comment={item} />))
                     }
+                </Grid>
+                <Grid item xs={8} style={{ marginTop: "20px", width: "100%" }}>
+                    <TextField id="commentField" disabled={isConnected} multiline fullWidth variant="outlined" placeholder="Add a comment" value={comment} onChange={handleCommentChange} />
+                    <Button variant="contained" disabled={isConnected} style={{ float: "right", marginTop: "5px" }} onClick={() => addComment()}>Add comment</Button>
+                </Grid>
             </Grid>
-            <Grid item xs={8} style={{marginTop:"20px",width:"100%"}}>
-                <TextField id="commentField" disabled={isConnected} multiline fullWidth variant="outlined" placeholder="Add a comment" value={comment} onChange={handleCommentChange}/>
-                <Button variant="contained" disabled={isConnected} style={{float:"right",marginTop:"5px"}} onClick={() => addComment()}>Add comment</Button>
-            </Grid>
-        </Grid>
     );
 }
 

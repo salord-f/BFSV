@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import CartItemCard from './CartItem'
 import { useSelector } from 'react-redux';
-import { Typography, Card, CardContent, Button } from '@material-ui/core';
+import { Typography, Card, CardContent, Button, Modal } from '@material-ui/core';
+import Checkout from '../Payment/Checkout';
 
 
 export default function Profile(props) {
@@ -10,6 +11,16 @@ export default function Profile(props) {
     const cartReducer = useSelector(state => state.cartReducer);
 
     const [totalPrice, setTotalPrice] = useState(0);
+
+    const [open, setOpen] = useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
 
 
     useEffect(() => {
@@ -24,6 +35,15 @@ export default function Profile(props) {
 
     return (
         <>
+            <Modal
+                open={open}
+                onClose={handleClose}
+            >
+                <div style={{ width: '80%', height: '80%', backgroundColor: "white", padding: "3em", marginLeft: "10%", marginTop: "5%" }}>
+
+                    <Checkout />
+                </div>
+            </Modal>
             <Typography style={{
                 textAlign: "center",
                 padding: "1em",
@@ -43,7 +63,7 @@ export default function Profile(props) {
                 <BottomCartComponent nbItems={cartReducer.cart.length} price={totalPrice} />
 
                 <div style={{ textAlign: "right", padding: "2em" }}>
-                    <Button variant="contained" color="primary">
+                    <Button variant="contained" color="primary" onClick={() => handleOpen()}>
                         Payer
                 </Button>
 

@@ -43,7 +43,7 @@ export default function SignUpSide(props) {
 
             console.log(JSON.stringify(payload));
             await api.createAnAccount(payload).then(res => {
-                window.alert(`TRY TO CREATE ` + JSON.stringify(res));
+                //window.alert(`TRY TO CREATE ` + JSON.stringify(res));
                 history.push("/signIn");
             }).catch((err) => {
                 setErrorMail(true);

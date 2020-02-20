@@ -9,7 +9,7 @@ import * as storage from 'redux-storage';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import createEngine from 'redux-storage-engine-localstorage';
 import REDUX_KEY from '../redux/ReduxKeys';
-import {ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 
 storage.reducer(combineReducers(myReducer));
@@ -21,8 +21,7 @@ const store = createStoreWithMiddleware(myReducer);
 const load = storage.createLoader(engine);
 load(store)
     .then((newState) => {
-        //dispatch({ type: LOGIN_KEY, value: newState.tokenReducer.token })
-        store.dispatch({ type: REDUX_KEY.LOGIN, value: newState.tokenReducer.token });
+        store.dispatch({ type: REDUX_KEY.LOGIN, value: newState.tokenReducer.user });
         store.dispatch({ type: REDUX_KEY.RESTORE, value: newState.cartReducer.cart });
         console.log('Loaded state:', newState)
     })
@@ -59,7 +58,7 @@ function MainRoute() {
     return (
         <>
             <NavBar />
-            <ToastContainer style={{marginTop:"80px"}}/>
+            <ToastContainer style={{ marginTop: "80px" }} />
             <Switch>
                 <Route path="/plugins/:id" exact component={Details} />
                 <Route path="/admin" exact component={AdminPage} />

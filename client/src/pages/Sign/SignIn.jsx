@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux'
 import api from './../../api'
 import REDUX_KEY from '../../redux/ReduxKeys';
+import jwt from 'jsonwebtoken'
 
 const validateEmail = (email) => {
     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -58,9 +59,11 @@ export default function SignInSide(props) {
 
         console.log(JSON.stringify(payload));
         await api.connectToAccount(payload).then(res => {
+            console.log(JSON.stringify(res));
+            const decodedToken = jwt.verify(res.data, 'BaPtIsTeLeGaY');
             let update = {
                 type: REDUX_KEY.LOGIN,
-                value: res.data
+                value: decodedToken.user
             }
             dispatch(update);
             history.push("/");
