@@ -63,7 +63,7 @@ export default function Profile(props) {
                 <BottomCartComponent nbItems={cartReducer.cart.length} price={totalPrice} />
 
                 <div style={{ textAlign: "right", padding: "2em" }}>
-                    <Button variant="contained" color="primary" onClick={() => handleOpen()}>
+                    <Button variant="contained" disabled={!cartReducer.cart.length} color="primary" onClick={() => handleOpen()}>
                         Payer
                 </Button>
 
