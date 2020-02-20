@@ -20,7 +20,7 @@ export default function UserPlugins(props) {
             console.log(e);
         }
 
-    }, []);
+    }, [login.user]);
 
     return (
         <>

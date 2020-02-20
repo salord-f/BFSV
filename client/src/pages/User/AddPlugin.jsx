@@ -15,10 +15,10 @@ export default function AddPlugin(props) {
 
     const login = useSelector(state => state.tokenReducer);
     console.log(login);
-    try{
+    try {
         console.log(login.user.token);
 
-    }catch (e) {
+    } catch (e) {
         console.log(e)
     }
 
@@ -31,7 +31,7 @@ export default function AddPlugin(props) {
         formData.append('image', image);
         formData.append('plugin', plugin);
         formData.append('author', login.user.mail);
-        const req = await api.createPlugin(formData, {
+        await api.createPlugin(formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': 'Bearer ' + login.user.token

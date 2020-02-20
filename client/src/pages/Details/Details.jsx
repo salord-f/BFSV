@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import YouTube from 'react-youtube';
 
@@ -20,11 +20,12 @@ import ImageAsync from 'react-image-async';
 
 
 import './../../style/details.scss'
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import REDUX_KEY from '../../redux/ReduxKeys';
 
 import Comment from "./Comment";
 import apis, {tryURL} from "../../api";
+import {NotFound} from "../NotFound";
 
 function CategoryItem(props) {
     return <Button style={{ marginLeft: "10px", background: "lightblue" }}>
@@ -46,21 +47,7 @@ function youTube(videoId) {
     }
 }
 
-function Error() {
-    return (
-        <div style={{
-            width: "100vw",
-            textAlign: "center"
-        }}>
-            <img style={{
-                width: "80vh",
-                height: "80vh"
-            }} src={require("../../assets/img/error.jpg")}
-            />
-        </div>
 
-    )
-}
 
 
 
@@ -160,7 +147,7 @@ function Details(props) {
             .catch(err => {
                 setError(true);
             });
-    }, []);
+    }, [props.match.params.id]);
 
     let testplugin = {
         id: 1,
@@ -195,14 +182,14 @@ function Details(props) {
     };
 
     return (
-        error ? <Error /> :
+        error ? <NotFound /> :
             <Grid container alignItems="center" justify="center" direction="column">
                 <Grid item xs={8}>
                     <Card className="detailCard" variant="outlined">
                         <Grid container spacing={3}>
                             <Grid item xs={3}>
                                 <ImageAsync src={plugin.image}>
-                                    {({ loaded, error }) =>
+                                    {({ loaded}) =>
                                         loaded ? <img alt="Loading..." className="detailImage" src={plugin.image} /> : <div>Loading...</div>
                                     }
                                 </ImageAsync>
@@ -210,28 +197,18 @@ function Details(props) {
                             <Grid item xs={9}>
                                 <Grid container justify="flex-start" style={{ marginTop: "20px" }}>
                                     <Grid item xs={12}>
-                                        <Typography color="textSecondary" gutterBottom style={{ float: "left" }}>
-                                            {"Catégories :"}
-                                    </Typography>
-                                        {
-                                            plugin.categories &&
-                                            plugin.categories.map((item, index) => (
-                                                <CategoryItem key={index} item={item} />))
-                                        }
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Typography variant="h5" component="h2">
+                                        <Typography variant="h4" component="h2">
                                             {plugin.name}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Typography color="textSecondary">
-                                            {plugin.author}
+                                            Auteur : {plugin.author}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Typography variant="body2" component="p">
-                                            {"v" + plugin.version}
+                                            {"version : " + plugin.version}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12}>
@@ -261,9 +238,19 @@ function Details(props) {
                                             || isConnected && plugin && plugin.likes.includes(login.user.mail) && <FavoriteIcon onClick={() => like(false)} fontSize="large" style={{ float: "left", color: "red" }}/>
                                             || isConnected && plugin && !plugin.likes.includes(login.user.mail) && <FavoriteBorderIcon onClick={() => like(true)} fontSize="large" style={{ float: "left", color: "red" }}/>
                                         }
-                                        <h6 style={{ float: "left",marginTop:"6px"}}>
+                                        <Typography variant="h6" component="p" style={{ float: "left", margin:"3px"}}>
                                             {plugin.likes && plugin.likes.length}
-                                        </h6>
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Typography color="textSecondary" gutterBottom style={{float: "left"}}>
+                                            {"Catégories :"}
+                                        </Typography>
+                                        {
+                                            plugin.categories &&
+                                            plugin.categories.map((item, index) => (
+                                                <CategoryItem key={index} item={item}/>))
+                                        }
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -282,7 +269,7 @@ function Details(props) {
                             </Grid>
                         </Grid>
                         <CardActions>
-                        <Button size="small" href={tryURL + plugin.tryLink} target="_blank">Try now</Button>
+                        <Button size="small" href={tryURL + plugin.tryLink} target="_blank">Essayer !</Button>
                     </CardActions>
                 </Card>
             </Grid>
@@ -294,8 +281,8 @@ function Details(props) {
                     }
                 </Grid>
                 <Grid item xs={8} style={{ marginTop: "20px", width: "100%" }}>
-                    <TextField id="commentField" disabled={!isConnected} multiline fullWidth variant="outlined" placeholder="Add a comment" value={comment} onChange={handleCommentChange} />
-                    <Button variant="contained" disabled={!isConnected} style={{ float: "right", marginTop: "5px" }} onClick={() => addComment()}>Add comment</Button>
+                    <TextField id="commentField" disabled={!isConnected} multiline fullWidth variant="outlined" placeholder="Commentaire" value={comment} onChange={handleCommentChange} />
+                    <Button variant="contained" disabled={!isConnected} style={{ float: "right", marginTop: "5px" }} onClick={() => addComment()}>Ajouter commentaire</Button>
                 </Grid>
             </Grid>
     );

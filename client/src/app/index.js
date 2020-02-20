@@ -10,6 +10,7 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import createEngine from 'redux-storage-engine-localstorage';
 import REDUX_KEY from '../redux/ReduxKeys';
 import { ToastContainer } from "react-toastify";
+import {NotFound} from "../pages/NotFound";
 
 
 storage.reducer(combineReducers(myReducer));
@@ -62,6 +63,7 @@ function MainRoute() {
                 <Route path="/user/plugins" exact component={UserPlugins} />
                 <Route path="/user/cart" exact component={Cart} />
                 <Route path="/" exact component={Plugins} />
+                <Route path='*' exact={true} component={NotFound} />
             </Switch>
         </>
     )

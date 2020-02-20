@@ -29,7 +29,7 @@ export default function Plugin(props) {
     useEffect(() => {
         const image = baseURL + "plugins/" + props.id + "/image";
         setImage(image);
-    }, []);
+    }, [image, props.id]);
 
     return (
         <Card className="card" style={{backgroundColor: "#F3F3F3", border: 0}}>
