@@ -30,4 +30,9 @@ router.get('/:id/image', PluginController.getPluginImage);
 
 router.post('/:id/comments', PluginController.addComment);
 
+router.post('/:id/likes', PluginController.addLike);
+router.delete('/:id/likes', PluginController.deleteLike);
+
+
+
 module.exports = router;
