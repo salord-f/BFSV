@@ -59,14 +59,7 @@ function Error() {
     )
 }
 
-function addToCard(plugin, dispatch) {
-    let ADD_ITEM_TO_CART = {
-        type: REDUX_KEY.ADD_ITEM,
-        value: plugin
-    };
-    dispatch(ADD_ITEM_TO_CART);
-    toast.success("Plugin " + plugin.name + " added to cart.");
-}
+
 
 function codeLink(link) {
     if (link !== "" && link != null) {
@@ -114,6 +107,25 @@ function Details(props) {
     const dispatch = useDispatch();
 
     let x = Date.now();
+
+    const addToCard = async (plugin, dispatch) => {
+        let payload = {
+            plugin: plugin._id
+        }
+
+        await apis.updateCart(login.user._id, payload).then(res => {
+            let ADD_ITEM_TO_CART = {
+                type: REDUX_KEY.ADD_ITEM,
+                value: plugin
+            };
+            dispatch(ADD_ITEM_TO_CART);
+            toast.success("Plugin " + plugin.name + " added to cart.");
+
+        }).catch((err) => {
+            console.log(err);
+            toast.error("Plugin " + plugin.name + "is no longer available ");
+        })
+    }
 
     useEffect(() => {
         apis.getPlugin(props.match.params.id).then((response) => {
@@ -208,7 +220,7 @@ function Details(props) {
                                         }
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <Button variant="contained" onClick={() => addToCard(plugin, dispatch)}>Add to cart</Button>
+                                        <Button disabled={!isConnected} variant="contained" onClick={() => addToCard(plugin, dispatch)}>Add to cart</Button>
                                     </Grid>
 
                                     <Grid item xs={12} style={{ marginTop: "10px" }}>

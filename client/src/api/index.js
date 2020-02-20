@@ -13,7 +13,8 @@ export const connectToAccount = payload => api.post('users/login', payload);
 export const getPlugin = id => api.get('/plugins/' + id);
 export const addComment = (id, payload) => api.post('/plugins/' + id + "/comments", payload);
 export const getPlugins = () => api.get('/plugins');
-export const updateCart = payload => api.put(payload.id + '/cart', payload.cartIdItem);
+export const updateCart = (id, payload) => api.put('users/' + id + '/cart', payload);
+export const removeItemToCart = (id, plugin) => api.delete('users/' + id + '/cart', { data: { plugin } });
 
 const apis = {
     createPlugin,
@@ -22,7 +23,8 @@ const apis = {
     getPlugins,
     getPlugin,
     addComment,
-    updateCart
+    updateCart,
+    removeItemToCart
 };
 
 export default apis
