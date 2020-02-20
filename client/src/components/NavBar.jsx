@@ -13,7 +13,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Logo from './../assets/img/logo/logo2.jpg';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 import REDUX_KEY from '../redux/ReduxKeys';
 import Button from "@material-ui/core/Button";
 
@@ -116,6 +116,9 @@ export default function PrimarySearchAppBar() {
 
     const isMenuOpen = Boolean(anchorEl);
 
+    const [search, setSearch] = React.useState("");
+    const [hasSearched, setHasSearched] = React.useState(false);
+
     useEffect(() => {
         if (loginReducer.user === undefined)
             setIsConnected(false);
@@ -185,6 +188,11 @@ export default function PrimarySearchAppBar() {
 
     return (
         <div className={classes.grow}>
+            {hasSearched && <Redirect to={{
+                pathname: '/',
+                state: { search: search }
+            }}
+            />}
             <AppBar className={classes.tabNav} position="static">
                 <Toolbar>
                     <IconButton
@@ -212,6 +220,10 @@ export default function PrimarySearchAppBar() {
                                     input: classes.inputInput,
                                 }}
                                 inputProps={{ 'aria-label': 'search' }}
+                                onChange={event=>{                                 //adding the onChange event
+                                    setHasSearched(true);
+                                    setSearch(event.target.value);
+                                }}
                             />
                         </div>
                         {

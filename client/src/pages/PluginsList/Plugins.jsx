@@ -4,7 +4,7 @@ import Plugin from "./Plugin";
 import "../../style/plugins.scss"
 import api from "../../api";
 
-export default function Plugins() {
+export default function Plugins(props) {
     const [plugins, setPlugins] = useState([]);
 
     useEffect(() => {
@@ -13,9 +13,10 @@ export default function Plugins() {
 
     return (
         <div className="pluginsGrid">
-            {plugins ? plugins.map((plugin) => (
-                <Plugin name={plugin.name} description={plugin.description} id={plugin._id} key={plugin._id + plugin.name}/>
-            )): ''}
+            {plugins ? plugins.filter((plugin) => (plugin.name.toLowerCase().includes(props.location.state ? props.location.state.search : "") || plugin.description.toLowerCase().includes(props.location.state ? props.location.state.search : ""))).map((plugin) => (
+                <Plugin name={plugin.name} description={plugin.description} id={plugin._id}
+                        key={plugin._id + plugin.name}/>
+            )) : ''}
         </div>
 
     )
