@@ -44,7 +44,7 @@ createPlugin = (req, res) => {
 
     body.image = 'uploads/images/' + pluginZip.originalname.slice(0, -4) + '-' + image.originalname;
     body.zipLocation = pluginZip.path;
-    body.tryLink = pluginZip.path.slice(0, -4);
+    body.tryLink = pluginZip.originalname.slice(0, -4);
 
     const plugin = new Plugin(body);
     if (!plugin) {
@@ -211,7 +211,7 @@ deleteLike = async (req, res) => {
         return res.status(400).json({success: false, error: 'Invalid id.'})
     }
     if (!req.body) {
-        error.errorHandler(res, 'Trying to add a comment without content.');
+        error.errorHandler(res, 'Trying to add a like without email address.');
     }
     Plugin.findOne({_id: req.params.id}, async (err, plugin) => {
         if (err) {

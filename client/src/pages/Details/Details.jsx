@@ -22,7 +22,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import REDUX_KEY from '../../redux/ReduxKeys';
 
 import Comment from "./Comment";
-import apis from "../../api";
+import apis, {tryURL} from "../../api";
 
 function CategoryItem(props) {
     return <Button style={{ marginLeft: "10px", background: "lightblue" }}>
@@ -244,7 +244,7 @@ function Details(props) {
                         </Grid>
                     </Grid>
                     <CardActions>
-                        <Button size="small" href={plugin.tryLink}>Try now</Button>
+                        <Button size="small" href={tryURL + plugin.tryLink} target="_blank">Try now</Button>
                     </CardActions>
                 </Card>
             </Grid>

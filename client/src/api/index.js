@@ -1,9 +1,10 @@
 import axios from 'axios'
 
 export const baseURL = 'http://localhost:3000/';
+export const tryURL = 'http://localhost:8080/';
 
 const api = axios.create({
-    baseURL: baseURL,
+    baseURL: baseURL
 });
 
 export const createPlugin = (payload, headers) => api.post('/plugins', payload, headers);

@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "cross-env BROWSER=none DB_HOST=localhost DB_PORT=27017 nodemon index.js",
+    "http-server": "http-server -p 8080 --no-dotfiles -d false uploads",
     "test": "cross-env DB_HOST=localhost DB_PORT=27017 mocha --exit"
   },
   "dependencies": {
