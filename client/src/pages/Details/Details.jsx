@@ -24,7 +24,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import REDUX_KEY from '../../redux/ReduxKeys';
 
 import Comment from "./Comment";
-import apis, {tryURL} from "../../api";
+import apis, {tryURL,baseURL} from "../../api";
 import {NotFound} from "../NotFound";
 
 function CategoryItem(props) {
@@ -140,7 +140,7 @@ function Details(props) {
         apis.getPlugin(props.match.params.id).then((response) => {
             console.log(response.data.data);
             let plugin = response.data.data;
-            plugin.image = "http://localhost:3000/plugins/" + plugin._id + "/image";
+            plugin.image = baseURL+"plugins/" + plugin._id + "/image";
             setPlugin(plugin);
             console.log(plugin);
         })

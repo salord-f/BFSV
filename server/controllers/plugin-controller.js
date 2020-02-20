@@ -217,12 +217,7 @@ deleteLike = async (req, res) => {
         if (err) {
             return res.status(400).json({success: false, error: err})
         }
-        console.log("avant");
-        console.log(req.body);
-        console.log(plugin.likes);
         plugin.likes = plugin.likes.filter(like => like !== req.body.email);
-        console.log("apres");
-        console.log(plugin.likes);
         await plugin.save();
         return res.status(200).json({success: true, data: plugin.likes})
     }).catch(err => console.log(err))
