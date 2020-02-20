@@ -177,7 +177,7 @@ function Details(props) {
                                 <Grid container justify="flex-start" style={{ marginTop: "20px" }}>
                                     <Grid item xs={12}>
                                         <Typography color="textSecondary" gutterBottom style={{ float: "left" }}>
-                                            Category :
+                                            {"Catégories :"}
                                     </Typography>
                                         {
                                             plugin.categories &&
@@ -202,7 +202,6 @@ function Details(props) {
                                     </Grid>
                                     <Grid item xs={12}>
                                         {
-                                            plugin.price &&
                                             <Typography className="detailTitle" color="textSecondary" gutterBottom>
                                                 {plugin.price + " €"}
                                             </Typography>
