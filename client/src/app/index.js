@@ -11,6 +11,7 @@ import createEngine from 'redux-storage-engine-localstorage';
 import REDUX_KEY from '../redux/ReduxKeys';
 import { ToastContainer } from "react-toastify";
 import {NotFound} from "../pages/NotFound";
+import apis from '../api';
 
 
 storage.reducer(combineReducers(myReducer));
@@ -24,6 +25,9 @@ load(store)
     .then((newState) => {
         store.dispatch({ type: REDUX_KEY.LOGIN, value: newState.tokenReducer.user });
         store.dispatch({ type: REDUX_KEY.RESTORE, value: newState.cartReducer.cart });
+        apis.getMyCart(newState.tokenReducer.user._id).then(res => {
+            store.dispatch({ type: REDUX_KEY.RESTORE, value: res.data.cart });
+        })
         console.log('Loaded state:', newState)
     })
     .catch(() => console.log('Failed to load previous state'));

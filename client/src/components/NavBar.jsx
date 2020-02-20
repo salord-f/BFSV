@@ -13,9 +13,10 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Logo from './../assets/img/logo/logo2.jpg';
 import { useDispatch, useSelector } from 'react-redux';
-import {Redirect, useHistory} from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import REDUX_KEY from '../redux/ReduxKeys';
 import Button from "@material-ui/core/Button";
+import apis from '../api';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -119,11 +120,15 @@ export default function PrimarySearchAppBar() {
     const [search, setSearch] = React.useState("");
     const [hasSearched, setHasSearched] = React.useState(false);
 
+
+
     useEffect(() => {
+        console.log(loginReducer.user);
         if (loginReducer.user === undefined)
             setIsConnected(false);
         else
             setIsConnected(true);
+
     }, [loginReducer.user, cartReducer]);
 
 
@@ -152,6 +157,7 @@ export default function PrimarySearchAppBar() {
             <MenuItem key={"CART"} onClick={() => handleMenuClose('/user/cart')}>Mon panier</MenuItem>,
             <MenuItem key={"DISCONNEXION"} onClick={() => {
                 dispatch({ type: REDUX_KEY.LOGIN, value: undefined });
+                dispatch({ type: REDUX_KEY.REMOVE_ALL_ITEMS });
                 setAnchorEl(null);
             }}>Se deconnecter</MenuItem>
         ]
@@ -220,7 +226,7 @@ export default function PrimarySearchAppBar() {
                                     input: classes.inputInput,
                                 }}
                                 inputProps={{ 'aria-label': 'search' }}
-                                onChange={event=>{                                 //adding the onChange event
+                                onChange={event => {                                 //adding the onChange event
                                     setHasSearched(true);
                                     setSearch(event.target.value);
                                 }}

@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux'
 import api from './../../api'
 import REDUX_KEY from '../../redux/ReduxKeys';
 import jwt from 'jsonwebtoken'
+import apis from './../../api';
 
 const validateEmail = (email) => {
     let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -68,6 +69,9 @@ export default function SignInSide(props) {
             };
             dispatch(update);
             history.push("/");
+            apis.getMyCart(decodedToken.user._id).then(res => {
+                dispatch({ type: REDUX_KEY.RESTORE, value: res.data.cart });
+            });
 
         }).catch((err) => {
             setErrorPassword(true);
