@@ -189,6 +189,40 @@ addComment = async (req, res) => {
     }).catch(err => console.log(err))
 };
 
+addLike = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({success: false, error: 'Invalid id.'})
+    }
+    if (!req.body) {
+        error.errorHandler(res, 'Trying to add a comment without content.');
+    }
+    Plugin.findOne({_id: req.params.id}, async (err, plugin) => {
+        if (err) {
+            return res.status(400).json({success: false, error: err})
+        }
+        plugin.likes.push(req.body.email);
+        await plugin.save();
+        return res.status(200).json({success: true, data: plugin.likes})
+    }).catch(err => console.log(err))
+};
+
+deleteLike = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).json({success: false, error: 'Invalid id.'})
+    }
+    if (!req.body) {
+        error.errorHandler(res, 'Trying to add a comment without content.');
+    }
+    Plugin.findOne({_id: req.params.id}, async (err, plugin) => {
+        if (err) {
+            return res.status(400).json({success: false, error: err})
+        }
+        plugin.likes = plugin.likes.filter(like => like !== req.body.email);
+        await plugin.save();
+        return res.status(200).json({success: true, data: plugin.likes})
+    }).catch(err => console.log(err))
+};
+
 
 module.exports = {
     createPlugin,
@@ -197,5 +231,7 @@ module.exports = {
     getPlugins,
     getPluginById,
     getPluginImage,
-    addComment
+    addComment,
+    addLike,
+    deleteLike
 };
