@@ -131,6 +131,8 @@ login = async (req, res) => {
                             console.log(err)
                         }
                         //console.log(token);
+                        const decodedToken = jwt.verify(token, 'BaPtIsTeLeGaY');
+                        console.log(decodedToken.user);
                         return res.send(token);
                     });
                 } else {
