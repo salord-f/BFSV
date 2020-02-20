@@ -178,12 +178,13 @@ addComment = async (req, res) => {
     if (!req.body) {
         error.errorHandler(res, 'Trying to add a comment without content.');
     }
-    await Plugin.findOne({_id: req.params.id}, (err, plugin) => {
+    Plugin.findOne({_id: req.params.id}, async (err, plugin) => {
         if (err) {
             return res.status(400).json({success: false, error: err})
         }
         const comment = new Comment(req.body);
         plugin.comments.push(comment);
+        await plugin.save();
         return res.status(200).json({success: true, data: plugin.comments})
     }).catch(err => console.log(err))
 };
