@@ -15,16 +15,13 @@ export default function Plugin(props) {
 
     const useStyles = makeStyles(() =>
         createStyles({
-
-
             clickableCard: {
                 height: "100%",
                 "&:hover": {
                     textDecoration: "none",
+                    backgroundColor: "#e0e0e0",
                 }
             }
-
-
         }));
 
     const classes = useStyles();
@@ -35,9 +32,9 @@ export default function Plugin(props) {
     }, []);
 
     return (
-        <Card className="card" style={{backgroundColor: "gray"}}>
-            <CardActionArea variant="outlined" className={classes.clickableCard} href={"/plugins/" + props.id}>
-                <CardHeader className="title" title={props.name ? props.name : "Your plugin title" }/>
+        <Card className="card" style={{backgroundColor: "#F3F3F3", border: 0}}>
+            <CardActionArea className={classes.clickableCard} href={"/plugins/" + props.id}>
+                <CardHeader className="title" title={props.name ? props.name : "Your plugin title"}/>
                 <CardMedia className="media" style={{display: "flex"}}>
                     <ImageAsync src={image}>
                         {({loaded, error}) =>
@@ -47,7 +44,7 @@ export default function Plugin(props) {
                 </CardMedia>
 
                 <CardContent className="descriptionCard">
-                        {props.description ? props.description : "There should be a description of your plugin here."}
+                    {props.description ? props.description : "There should be a description of your plugin here."}
                 </CardContent>
             </CardActionArea>
         </Card>
