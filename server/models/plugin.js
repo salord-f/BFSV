@@ -35,4 +35,4 @@ const plugin = new Schema(
     {timestamps: true}
 );
 
-module.exports = {plugin: mongoose.model('plugins', plugin), comment: comment};
+module.exports = {plugin: mongoose.model('plugins', plugin), comment: mongoose.model('comment', comment)};
