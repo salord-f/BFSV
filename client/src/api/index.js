@@ -17,6 +17,7 @@ export const addLike = (id, payload) => api.post('/plugins/' + id + '/likes', pa
 export const deleteLike = (id, payload) => api.delete('/plugins/' + id + '/likes',{data:payload});
 export const updateCart = (id, payload) => api.put('users/' + id + '/cart', payload);
 export const removeItemToCart = (id, plugin) => api.delete('users/' + id + '/cart', { data: { plugin } });
+export const getUserPlugins = mail => api.get('plugins/author/' + mail);
 
 const apis = {
     createPlugin,
@@ -28,7 +29,8 @@ const apis = {
     updateCart,
     addLike,
     deleteLike,
-    removeItemToCart
+    removeItemToCart,
+    getUserPlugins
 };
 
 export default apis

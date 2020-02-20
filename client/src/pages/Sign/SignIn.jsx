@@ -61,10 +61,11 @@ export default function SignInSide(props) {
         await api.connectToAccount(payload).then(res => {
             console.log(JSON.stringify(res));
             const decodedToken = jwt.verify(res.data, 'BaPtIsTeLeGaY');
+            decodedToken.user.token = res.data;
             let update = {
                 type: REDUX_KEY.LOGIN,
                 value: decodedToken.user
-            }
+            };
             dispatch(update);
             history.push("/");
 

@@ -28,10 +28,6 @@ load(store)
     .catch(() => console.log('Failed to load previous state'));
 
 
-
-
-
-
 function App() {
     return (
         <Provider store={store}>

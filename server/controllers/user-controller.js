@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
+const Plugin = require('../models/plugin').plugin;
 
 createUser = (req, res) => {
     //console.log(req.body.mail);
@@ -94,7 +95,7 @@ deleteUser = async (req, res) => {
 };
 
 getUserById = async (req, res) => {
-    await User.findOne({_id: req.params.mail}, (err, user) => {
+    await User.findOne({_id: req.params.id}, (err, user) => {
         if (err) {
             return res.status(400).json({success: false, error: err})
         }
@@ -121,6 +122,9 @@ login = async (req, res) => {
     await User.findOne({mail: body.mail}, (err, user) => {
         if (err) {
             return res.status(400).json({success: false, error: err})
+        }
+        if (!user) {
+            res.status(403).send('User doesn\'t exist.');
         }
         if (body.password) {
             user.comparePassword(body.password, (err, correct) => {
@@ -225,5 +229,5 @@ module.exports = {
     getUserById,
     login,
     addToCart,
-    deleteFromCart
+    deleteFromCart,
 };

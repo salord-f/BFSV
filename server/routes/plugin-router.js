@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const auth = require('../auth');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -20,7 +21,7 @@ const PluginController = require('../controllers/plugin-controller');
 
 const router = express.Router();
 
-router.post('/', upload.fields([{name: 'image'}, {name: 'plugin'}]), PluginController.createPlugin);
+router.post('/', auth, upload.fields([{name: 'image'}, {name: 'plugin'}]), PluginController.createPlugin);
 router.put('/:id', PluginController.updatePlugin);
 router.delete('/:id', PluginController.deletePlugin);
 router.get('/:id', PluginController.getPluginById);
@@ -33,6 +34,7 @@ router.post('/:id/comments', PluginController.addComment);
 router.post('/:id/likes', PluginController.addLike);
 router.delete('/:id/likes', PluginController.deleteLike);
 
+router.get('/author/:mail', PluginController.getUserPlugins);
 
 
 module.exports = router;

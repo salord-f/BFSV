@@ -53,7 +53,7 @@ createPlugin = (req, res) => {
     console.log('Plugin created.');
     console.log(plugin);
     plugin.save()
-        .then(() => {
+        .then(async () => {
             return res.status(201).json({
                 success: true,
                 id: plugin._id,
@@ -228,6 +228,15 @@ deleteLike = async (req, res) => {
     }).catch(err => console.log(err))
 };
 
+getUserPlugins = async (req, res) => {
+    await Plugin.find({author: req.params.mail}, (err, plugins) => {
+        if (err) {
+            return res.status(400).json({success: false, error: err})
+        }
+        return res.status(200).json({success: true, data: plugins})
+    }).catch(err => console.log(err))
+};
+
 
 module.exports = {
     createPlugin,
@@ -238,5 +247,6 @@ module.exports = {
     getPluginImage,
     addComment,
     addLike,
-    deleteLike
+    deleteLike,
+    getUserPlugins
 };
