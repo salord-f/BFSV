@@ -14,6 +14,8 @@ export const getPlugin = id => api.get('/plugins/' + id);
 export const addComment = (id, payload) => api.post('/plugins/' + id + "/comments", payload);
 export const getPlugins = () => api.get('/plugins');
 export const updateCart = payload => api.put(payload.id + '/cart', payload.cartIdItem);
+export const addLike = (id, payload) => api.post('/plugins/' + id + '/likes', payload);
+export const deleteLike = (id, payload) => api.delete('/plugins/' + id + '/likes',{data:payload});
 
 const apis = {
     createPlugin,
@@ -22,7 +24,9 @@ const apis = {
     getPlugins,
     getPlugin,
     addComment,
-    updateCart
+    updateCart,
+    addLike,
+    deleteLike
 };
 
 export default apis

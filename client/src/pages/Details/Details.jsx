@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import YouTube from 'react-youtube';
@@ -13,6 +13,9 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+
+
 import ImageAsync from 'react-image-async';
 
 
@@ -82,6 +85,25 @@ function codeLink(link) {
 
 function Details(props) {
 
+    const [, updateState] = React.useState();
+    const forceUpdate = useCallback(() => updateState({}), []);
+
+    function like(bool) {
+        let plug = plugin;
+        let likes = plug.likes;
+        let email = {email: login.user.mail};
+        if(bool){
+            apis.addLike(props.match.params.id, email);
+            likes.push(login.user.mail);
+        } else {
+            apis.deleteLike(props.match.params.id, email);
+            likes = likes.filter(like => like !== login.user.mail);
+        }
+        plug.likes = likes;
+        setPlugin(plug);
+        forceUpdate();
+    }
+
     function handleCommentChange(e) {
         setComment(e.target.value);
     }
@@ -91,7 +113,7 @@ function Details(props) {
         let comments = plug.comments;
         let x = Date.now();
         let newCom = {
-            authorMail: "temp@mail.com",
+            authorMail: login.user.mail,
             content: comment,
             time: x,
         };
@@ -208,7 +230,7 @@ function Details(props) {
                                         }
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <Button variant="contained" onClick={() => addToCard(plugin, dispatch)}>Add to cart</Button>
+                                        <Button variant="contained" disabled={!isConnected} onClick={() => addToCard(plugin, dispatch)}>Add to cart</Button>
                                     </Grid>
 
                                     <Grid item xs={12} style={{ marginTop: "10px" }}>
@@ -222,8 +244,14 @@ function Details(props) {
                                         {codeLink(plugin.codeLink)}
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <FavoriteIcon style={{ float: "left", color: "red" }}>9</FavoriteIcon>
-                                        <h6 style={{ float: "left" }}>{plugin.likes && plugin.likes.length}</h6>
+                                        {
+                                            !isConnected && <FavoriteIcon fontSize="large" style={{ float: "left", color: "grey" }}/>
+                                            || isConnected && plugin && plugin.likes.includes(login.user.mail) && <FavoriteIcon onClick={() => like(false)} fontSize="large" style={{ float: "left", color: "red" }}/>
+                                            || isConnected && plugin && !plugin.likes.includes(login.user.mail) && <FavoriteBorderIcon onClick={() => like(true)} fontSize="large" style={{ float: "left", color: "red" }}/>
+                                        }
+                                        <h6 style={{ float: "left",marginTop:"6px"}}>
+                                            {plugin.likes && plugin.likes.length}
+                                        </h6>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -254,8 +282,8 @@ function Details(props) {
                     }
                 </Grid>
                 <Grid item xs={8} style={{ marginTop: "20px", width: "100%" }}>
-                    <TextField id="commentField" disabled={isConnected} multiline fullWidth variant="outlined" placeholder="Add a comment" value={comment} onChange={handleCommentChange} />
-                    <Button variant="contained" disabled={isConnected} style={{ float: "right", marginTop: "5px" }} onClick={() => addComment()}>Add comment</Button>
+                    <TextField id="commentField" disabled={!isConnected} multiline fullWidth variant="outlined" placeholder="Add a comment" value={comment} onChange={handleCommentChange} />
+                    <Button variant="contained" disabled={!isConnected} style={{ float: "right", marginTop: "5px" }} onClick={() => addComment()}>Add comment</Button>
                 </Grid>
             </Grid>
     );

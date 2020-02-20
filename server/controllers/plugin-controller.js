@@ -194,7 +194,7 @@ addLike = async (req, res) => {
         return res.status(400).json({success: false, error: 'Invalid id.'})
     }
     if (!req.body) {
-        error.errorHandler(res, 'Trying to add a comment without content.');
+        error.errorHandler(res, 'Trying to add a like without email adress.');
     }
     Plugin.findOne({_id: req.params.id}, async (err, plugin) => {
         if (err) {
@@ -211,13 +211,18 @@ deleteLike = async (req, res) => {
         return res.status(400).json({success: false, error: 'Invalid id.'})
     }
     if (!req.body) {
-        error.errorHandler(res, 'Trying to add a like without email address.');
+        error.errorHandler(res, 'Trying to remove a like without email address.');
     }
     Plugin.findOne({_id: req.params.id}, async (err, plugin) => {
         if (err) {
             return res.status(400).json({success: false, error: err})
         }
+        console.log("avant");
+        console.log(req.body);
+        console.log(plugin.likes);
         plugin.likes = plugin.likes.filter(like => like !== req.body.email);
+        console.log("apres");
+        console.log(plugin.likes);
         await plugin.save();
         return res.status(200).json({success: true, data: plugin.likes})
     }).catch(err => console.log(err))
