@@ -7,17 +7,23 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import "../../../style/cart.scss"
 import { Link } from "@material-ui/core";
 import GitHubIcon from '@material-ui/icons/GitHub';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import REDUX_KEY from "../../../redux/ReduxKeys";
 import ImageAsync from 'react-image-async';
+import apis from "../../../api";
 
 
 const CartItemCard = (props) => {
     //alert(JSON.stringify(props))
 
+    const login = useSelector(state => state.tokenReducer);
+
     const dispatch = useDispatch();
 
-    const removeItemFromCard = () => {
+    const removeItemFromCard = async () => {
+        const plugin = props.plugin._id;
+
+        await apis.removeItemToCart(login.user._id, plugin);
         let request = {
             type: REDUX_KEY.REMOVE_ITEM,
             value: props.plugin._id
