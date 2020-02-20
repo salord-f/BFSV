@@ -149,10 +149,10 @@ login = async (req, res) => {
 addToCart = async (req, res) => {
     const body = req.body;
 
-    if (!body) {
+    if (!body || !body.plugin) {
         return res.status(400).json({
             success: false,
-            error: 'You must provide a body to update the cart.',
+            error: 'You must provide a body to update the cart : {"plugin": "objectid"}.',
         })
     }
 
@@ -163,7 +163,7 @@ addToCart = async (req, res) => {
                 message: 'User not found.',
             })
         }
-        user.cart.push(body);
+        user.cart.push(body.plugin);
         user.save()
             .then(() => {
                 return res.status(200).json({
@@ -184,10 +184,10 @@ addToCart = async (req, res) => {
 deleteFromCart = async (req, res) => {
     const body = req.body;
 
-    if (!body) {
+    if (!body || !body.plugin) {
         return res.status(400).json({
             success: false,
-            error: 'You must provide a body to update the cart.',
+            error: 'You must provide a body to update the cart : {"plugin": "objectid"}.',
         })
     }
 
@@ -199,7 +199,7 @@ deleteFromCart = async (req, res) => {
             })
         }
 
-        user.cart = user.cart.filter(pluginId => pluginId !== body._id);
+        user.cart = user.cart.filter(pluginId => pluginId !== body.plugin);
         user.save()
             .then(() => {
                 return res.status(200).json({
