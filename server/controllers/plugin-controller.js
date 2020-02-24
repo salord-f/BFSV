@@ -161,7 +161,7 @@ getPluginImage = async (req, res) => {
 
 getPlugins = async (req, res) => {
     const perPage = 12;
-    const page = req.params.page || 1;
+    const page = req.params.page;
 
     await Plugin.find({})
         .skip((perPage * page) - perPage)

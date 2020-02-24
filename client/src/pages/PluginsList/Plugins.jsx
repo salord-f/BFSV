@@ -39,7 +39,7 @@ export default function Plugins(props) {
 
     const handleClick = () => {
         setPage(page + 1);
-        api.getPlugins(page).then(result => {
+        api.getPlugins(page + 1).then(result => {
             setPlugins([...plugins, ...result.data.data]);
             setHasNext(result.data.hasNext);
         });
