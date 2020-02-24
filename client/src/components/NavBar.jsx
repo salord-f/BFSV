@@ -190,6 +190,10 @@ export default function PrimarySearchAppBar() {
         </Menu>
     );
 
+    const cleanSearch = () => {
+        setSearch("");
+    };
+
 
     return (
         <div className={classes.grow}>
@@ -202,13 +206,14 @@ export default function PrimarySearchAppBar() {
                 <Toolbar>
                     <IconButton
                         href={"/"}
+                        onClick={() => cleanSearch()}
                         edge="start"
                         className={classes.menuButton}
                         aria-label="open drawer"
                     >
                         <CardMedia image={Logo} style={{height: 50, width: "100%", backgroundSize: "contain"}}/>
                     </IconButton>
-                    <Button size={"medium"} className={classes.title} href={"/"}>
+                    <Button size={"medium"} className={classes.title} onClick={() => cleanSearch()} href={"/"}>
                         BFSV
                     </Button>
                     <div className={classes.grow}/>
@@ -225,6 +230,7 @@ export default function PrimarySearchAppBar() {
                                     input: classes.inputInput,
                                 }}
                                 inputProps={{'aria-label': 'search'}}
+                                value={search}
                                 onChange={event => {                                 //adding the onChange event
                                     setHasSearched(true);
                                     setSearch(event.target.value);
