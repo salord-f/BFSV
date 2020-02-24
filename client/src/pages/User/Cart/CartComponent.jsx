@@ -4,11 +4,16 @@ import CartItemCard from './CartItem'
 import { useSelector } from 'react-redux';
 import { Typography, Card, CardContent, Button, Modal } from '@material-ui/core';
 import Checkout from '../Payment/Checkout';
+import { useHistory } from 'react-router-dom';
 
 
-export default function Profile(props) {
+export default function Cart() {
 
     const cartReducer = useSelector(state => state.cartReducer);
+
+    const loginReducer = useSelector(state => state.tokenReducer);
+
+    const history = useHistory();
 
     const [totalPrice, setTotalPrice] = useState(0);
 
@@ -22,6 +27,7 @@ export default function Profile(props) {
         setOpen(true);
     };
 
+    const [i, setI] = useState(0);
 
     useEffect(() => {
         let tempArray = [];
@@ -30,8 +36,17 @@ export default function Profile(props) {
             setTotalPrice(tempArray.reduce((accumulator, currentValue) => accumulator + currentValue))
         } else {
             setTotalPrice(0)
+        };
+        if (i > 0) {
+            if (loginReducer.user === undefined)
+                history.push("/")
+        } else {
+
+            setTimeout(() => setI(1), 100)
         }
-    }, [cartReducer])
+
+    }, [cartReducer, loginReducer, i])
+
 
     return (
         <>
@@ -88,7 +103,7 @@ const BottomCartComponent = (props) => {
                 Nombre d'articles total : {props.nbItems}
             </CardContent>
             <CardContent>
-                Prix total : {props.price}
+                Prix total : {props.price === 0 ? "Gratuit" : props.price + "€"}
             </CardContent>
         </Card>
     );

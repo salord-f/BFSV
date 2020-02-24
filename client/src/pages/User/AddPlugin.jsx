@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
-import {Button, Grid, TextField} from "@material-ui/core";
+import React, { useState, useEffect } from 'react';
+import { Button, Grid, TextField } from "@material-ui/core";
 import Input from "@material-ui/core/Input";
 import api from './../../api'
 import Typography from "@material-ui/core/Typography";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
+import { useHistory } from 'react-router-dom';
 
 
 export default function AddPlugin(props) {
@@ -14,13 +15,20 @@ export default function AddPlugin(props) {
     const [plugin, setPlugin] = useState('');
 
     const login = useSelector(state => state.tokenReducer);
-    console.log(login);
-    try {
-        console.log(login.user.token);
 
-    } catch (e) {
-        console.log(e)
-    }
+    const [i, setI] = useState(0);
+
+    const history = useHistory();
+
+    useEffect(() => {
+        if (i > 0) {
+            if (login.user === undefined)
+                history.push("/")
+        } else {
+
+            setTimeout(() => setI(1), 100)
+        }
+    }, [i, login])
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -69,23 +77,23 @@ export default function AddPlugin(props) {
 
     return (
         <>
-            <Grid container style={{"padding": "20px"}} padding={"20px"} direction="column">
+            <Grid container style={{ "padding": "20px" }} padding={"20px"} direction="column">
                 <Grid item xs={6}>
                     <Grid item>
                         <Typography variant="h5"
-                                    style={{"width": "100%", "marginTop": "10px"}}>Ajouter un plugin</Typography>
+                            style={{ "width": "100%", "marginTop": "10px" }}>Ajouter un plugin</Typography>
                     </Grid>
                     <Grid item>
                         <TextField label={'Nom'} onChange={handleNameChange} required
-                                   style={{"width": "100%", "marginTop": "10px"}}>Nom</TextField>
+                            style={{ "width": "100%", "marginTop": "10px" }}>Nom</TextField>
                     </Grid>
                     <Grid item>
                         <TextField label={'Version'} onChange={handleVersionChange} required
-                                   style={{"width": "100%", "marginTop": "10px"}}>Version</TextField>
+                            style={{ "width": "100%", "marginTop": "10px" }}>Version</TextField>
                     </Grid>
                     <Grid item>
                         <TextField label={'Description'} onChange={handleDescriptionChange} required
-                                   style={{"width": "100%", "marginTop": "10px"}}>Description</TextField>
+                            style={{ "width": "100%", "marginTop": "10px" }}>Description</TextField>
 
                     </Grid>
 
@@ -93,12 +101,12 @@ export default function AddPlugin(props) {
                         <Button
                             variant="contained"
                             component="label"
-                            style={{"width": "100%", "marginTop": "10px"}}
+                            style={{ "width": "100%", "marginTop": "10px" }}
                         >
                             Ajouter une image
                             <Input
                                 type="file"
-                                style={{display: "none"}}
+                                style={{ display: "none" }}
                                 onChange={handleImageChange}
                             />
                         </Button>
@@ -107,12 +115,12 @@ export default function AddPlugin(props) {
                         <Button
                             variant="contained"
                             component="label"
-                            style={{"width": "100%", "marginTop": "10px"}}
+                            style={{ "width": "100%", "marginTop": "10px" }}
                         >
                             Code du plugin
                             <input
                                 type="file"
-                                style={{display: "none"}}
+                                style={{ display: "none" }}
                                 onChange={handlePluginChange}
                             />
                         </Button>
@@ -121,7 +129,7 @@ export default function AddPlugin(props) {
 
 
                 <Button type="submit" onClick={handleSubmit}
-                        style={{"width": "100%", "marginTop": "10px"}}>Valider</Button>
+                    style={{ "width": "100%", "marginTop": "10px" }}>Valider</Button>
             </Grid>
         </>
     );

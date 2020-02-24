@@ -77,7 +77,7 @@ const CartItemCard = (props) => {
 
             <CardContent className="cart-removeItemCard">
                 <Typography className="cart-priceItem">
-                    {props.plugin.price}
+                    {props.plugin.price === 0 ? "Gratuit" : props.plugin.price + "€"}
                 </Typography>
                 <IconButton
                     //className={classes.menuButton}
