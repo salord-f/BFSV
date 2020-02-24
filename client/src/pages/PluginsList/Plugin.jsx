@@ -25,7 +25,7 @@ export default function Plugin(props) {
         }));
 
     const classes = useStyles();
-    
+
     return (
         <Card className="card" style={{backgroundColor: "#F3F3F3", border: 0}}>
             <CardActionArea className={classes.clickableCard} href={"/plugins/" + props.id}>
