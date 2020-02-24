@@ -189,9 +189,9 @@ function Details(props) {
     return (
         error ? <NotFound /> :
             <Grid container alignItems="center" justify="center" direction="column">
-                <Grid item xs={8}>
+                <Grid item xs={8} style={{width:"100%"}}>
                     <Card className="detailCard" variant="outlined">
-                        <Grid container spacing={3}>
+                        <Grid container spacing={10} style={{marginLeft:"40px",marginRight:"40px"}}>
                             <Grid item xs={3}>
                                 <ImageAsync src={plugin.image}>
                                     {({ loaded}) =>
@@ -199,8 +199,8 @@ function Details(props) {
                                     }
                                 </ImageAsync>
                             </Grid>
-                            <Grid item xs={9}>
-                                <Grid container justify="flex-start" style={{ marginTop: "20px" }}>
+                            <Grid item xs={6}>
+                                <Grid container spacing={3} justify="flex-start" style={{ marginTop: "20px" }}>
                                     <Grid item xs={12}>
                                         <Typography variant="h4" component="h2">
                                             {plugin.name}
@@ -224,7 +224,7 @@ function Details(props) {
                                         }
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <Button variant="contained" disabled={!isConnected} onClick={() => addToCard(plugin, dispatch)}>Add to cart</Button>
+                                        <Button variant="contained" disabled={!isConnected} onClick={() => addToCard(plugin, dispatch)}>Ajouter au panier</Button>
                                     </Grid>
 
                                     <Grid item xs={12} style={{ marginTop: "10px" }}>
@@ -247,17 +247,17 @@ function Details(props) {
                                             {plugin.likes && plugin.likes.length}
                                         </Typography>
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <Typography color="textSecondary" gutterBottom style={{float: "left"}}>
-                                            {"Catégories :"}
-                                        </Typography>
-                                        {
-                                            plugin.categories &&
-                                            plugin.categories.map((item, index) => (
-                                                <CategoryItem key={index} item={item}/>))
-                                        }
-                                    </Grid>
                                 </Grid>
+                            </Grid>
+                            <Grid item xs={3} style={{ marginTop: "20px" }}>
+                                <Typography color="textSecondary" gutterBottom style={{float: "left"}}>
+                                    {"Catégories :"}
+                                </Typography>
+                                {
+                                    plugin.categories &&
+                                    plugin.categories.map((item, index) => (
+                                        <CategoryItem key={index} item={item}/>))
+                                }
                             </Grid>
                             <Grid item xs={12}>
                                 <CardContent>
@@ -274,7 +274,7 @@ function Details(props) {
                             </Grid>
                         </Grid>
                         <CardActions>
-                            <Button size="small" href={tryURL + plugin.tryLink} target="_blank">Essayer !</Button>
+                            <Button size="large" variant="contained" href={tryURL + plugin.tryLink} target="_blank">Essayer !</Button>
                         </CardActions>
                     </Card>
                 </Grid>
