@@ -13,7 +13,7 @@ export default function Plugins(props) {
 
     return (
         <div className="pluginsGrid">
-            {plugins ? plugins.filter((plugin) => (plugin.name.toLowerCase().includes(props.location.state ? props.location.state.search : "") || plugin.description.toLowerCase().includes(props.location.state ? props.location.state.search : ""))).map((plugin) => (
+            {plugins ? plugins.filter((plugin) => (plugin.name.toLowerCase().includes(props.location.state ? props.location.state.search.toLowerCase() : "") || plugin.description.toLowerCase().includes(props.location.state ? props.location.state.search.toLowerCase() : ""))).map((plugin) => (
                 <Plugin name={plugin.name} description={plugin.description} id={plugin._id}
                         key={plugin._id + plugin.name}/>
             )) : ''}
