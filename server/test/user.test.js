@@ -1,5 +1,4 @@
 const generateString = require('../utils/utils').generateString;
-const mongoose = require('mongoose');
 
 const assert = require('assert');
 
@@ -36,5 +35,4 @@ describe('User', function () {
         user = await Mongo.collection('users').findOne({mail: user.mail});
         assert(user === null);
     });
-
 });

@@ -19,12 +19,12 @@ const mail = generateString(10) + "@email.com";
 let user;
 
 describe('User controller', function () {
-    it('should get all users', async () => {
+    it('Should hurt unauthorized access on getting all users', async () => {
         const req = await chai.request(server)
             .get('/users');
         assert.equal(req.status, 401)
     });
-    it('should create a user and authenticate', async () => {
+    it('Should create a user and authenticate', async () => {
         let req = await chai.request(server)
             .post('/users')
             .send({
@@ -40,15 +40,12 @@ describe('User controller', function () {
                 password: "password"
             });
         assert.equal(req.status, 200);
-        //console.log(req.text);
         const token = req.text;
 
         req = await chai.request(server)
             .get('/users')
             .set('Authorization', 'Bearer ' + token);
-        //console.log(req)
         assert.equal(req.status, 200);
-        //console.log(req.body)
     });
     it('Should add to the cart', async () => {
         let req = await chai.request(server)
@@ -57,7 +54,7 @@ describe('User controller', function () {
                 plugin: mongoose.Types.ObjectId()
             });
         assert.equal(req.status, 200)
-    })
+    });
     it('Should delete the user', async() => {
         let req = await chai.request(server)
             .delete('/users/' + user._id);
