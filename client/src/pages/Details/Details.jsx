@@ -28,7 +28,7 @@ import apis, {tryURL,baseURL} from "../../api";
 import {NotFound} from "../NotFound";
 
 function CategoryItem(props) {
-    return <Button style={{ marginLeft: "10px", background: "lightblue" }}>
+    return <Button disabled style={{ marginLeft: "10px", background: "lightblue", width:"100%" }}>
         <Typography className="categoryText">{props.item}</Typography>
     </Button>
 }
@@ -39,9 +39,10 @@ function TagItem(props) {
 
 function youTube(videoId) {
     if (videoId !== "" && videoId != null) {
+        const id = videoId.split('=').pop();
         return (
             <div className="detailYoutube">
-                <YouTube videoId={videoId} />
+                <YouTube videoId={id} />
             </div>
         )
     }
@@ -154,38 +155,6 @@ function Details(props) {
             });
     }, [props.match.params.id]);
 
-    let testplugin = {
-        id: 1,
-        name: "bASS",
-        version: "1.0.1",
-        description: "The best bass you will every find... and this should be longer because it is a description lol do you like this text? Such beautiful text much words. Is this enough? Do you think we need more text? We need more ziggurats. Ok I stop now",
-        author: "FluidGM",
-        image: "bASS.png",
-        codeLink: "https://github.com/salord-f/BFSV",
-        categories: ["MODULATION", "REVERB"],
-        tags: ["tag1", "tag2", "tag3"],
-        youtubeLink: "B3WJaC-7g2c",
-        likes: ["wesh", "alors", "Jul", "le", "sang"], // user mails
-        comments: [{
-            authorMail: "jacques.rossel@etu.unice.fr",
-            content: "Trop bien, j'adore! wesh alors ok d a fqsfdf fsdgeg loDQ SQ ZEERRZE fdsfsteh fsdgr ssss fgsdgf dgdsg dsgg gsgsd s gsg  gs gsg sggsd gggf bim bam boum a fsfsd hfhghgf kkkgf gd gdfdhfdfg hgfgfhgfhgfh jyuyu dfgdgfd dsgdgfd fghd gdfg gdfgdfgdf hgfghffhg ggdf dqs",
-            time: x,
-        },
-        {
-            authorMail: "laurent-jerome.benazet-lacarre@etu.univ-cotedazur.fr",
-            content: "ok boomer",
-            time: x,
-        }],
-        /*status: {
-            available: {type: Boolean, default: false},
-            automaticValidation: {type: Boolean, default: false},
-            manualValidation: {type: Boolean, default: false},
-        },*/
-        tryLink: "https://www.google.be/",
-        price: 15.99,
-        zipLocation: "not sure what is supposed to be here",
-    };
-
     return (
         error ? <NotFound /> :
             <Grid container alignItems="center" justify="center" direction="column">
@@ -250,14 +219,20 @@ function Details(props) {
                                 </Grid>
                             </Grid>
                             <Grid item xs={3} style={{ marginTop: "20px" }}>
-                                <Typography color="textSecondary" gutterBottom style={{float: "left"}}>
-                                    {"Catégories :"}
-                                </Typography>
-                                {
-                                    plugin.categories &&
-                                    plugin.categories.map((item, index) => (
-                                        <CategoryItem key={index} item={item}/>))
-                                }
+                                <Grid container direction="column" spacing={1} alignItems="stretch">
+                                    <Grid item >
+                                        <Typography color="textSecondary" gutterBottom style={{float: "left"}}>
+                                            {"Catégories :"}
+                                        </Typography>
+                                    </Grid>
+                                    {
+                                        plugin.categories &&
+                                        plugin.categories.map((item, index) => (
+                                            <Grid item xs={8}>
+                                                <CategoryItem key={index} item={item}/>
+                                            </Grid>))
+                                    }
+                                </Grid>
                             </Grid>
                             <Grid item xs={12}>
                                 <CardContent>
