@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const categories = require('./categories');
 
 const comment = new Schema(
     {
@@ -18,7 +17,7 @@ const plugin = new Schema(
         author: {type: String, required: true},
         image: {type: String, required: true},
         codeLink: String,
-        categories: [categories],
+        categories: [String],
         tags: [String],
         youtubeLink: String,
         likes: [String], // user mails
