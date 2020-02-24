@@ -12,7 +12,7 @@ export const createAnAccount = payload => api.post('users', payload);
 export const connectToAccount = payload => api.post('users/login', payload);
 export const getPlugin = id => api.get('/plugins/' + id);
 export const addComment = (id, payload) => api.post('/plugins/' + id + "/comments", payload);
-export const getPlugins = () => api.get('/plugins');
+export const getPlugins = (page) => api.get('/plugins/page/' + page);
 export const addLike = (id, payload) => api.post('/plugins/' + id + '/likes', payload);
 export const deleteLike = (id, payload) => api.delete('/plugins/' + id + '/likes', { data: payload });
 export const getMyCart = (id) => api.get('users/' + id + '/cart');

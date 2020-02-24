@@ -8,8 +8,8 @@ import {createStyles, makeStyles} from "@material-ui/core/styles";
 
 export default function Plugins(props) {
     const [plugins, setPlugins] = useState([]);
-    const [page, setPage] = useState(0);
-    const [maxPage, setMaxPage] = useState(0);
+    const [page, setPage] = useState(1);
+    const [hasNext, setHasNext] = useState(true);
 
     const useStyles = makeStyles(() =>
         createStyles({
@@ -31,17 +31,18 @@ export default function Plugins(props) {
         }));
 
     useEffect(() => {
-        api.getPlugins().then(result => setPlugins(result.data.data));
-
-        setMaxPage(5);
+        api.getPlugins(page).then(result => {
+            setPlugins(result.data.data);
+            setHasNext(result.data.hasNext);
+        });
     }, [plugins]);
 
     const handleClick = () => {
-        // api.getPlugins().then(result => {
-        //     setPlugins([...plugins, ...result.data.data]);
-        // })
         setPage(page + 1);
-        console.log(page);
+        api.getPlugins(page).then(result => {
+            setPlugins([...plugins, ...result.data.data]);
+            setHasNext(result.data.hasNext);
+        });
     };
 
     const classes = useStyles();
@@ -50,12 +51,14 @@ export default function Plugins(props) {
         <div className={classes.pluginsPage}>
             <div className="pluginsGrid">
                 {plugins ? plugins.filter((plugin) => (plugin.name.toLowerCase().includes(props.location.state ? props.location.state.search.toLowerCase() : "") || plugin.description.toLowerCase().includes(props.location.state ? props.location.state.search.toLowerCase() : ""))).map((plugin) => (
-                    <Plugin name={plugin.name} description={plugin.description} id={plugin._id}
-                            key={plugin._id + plugin.name}/>
+                    <Plugin name={plugin.name}
+                            description={plugin.description}
+                            id={plugin._id}
+                            key={plugin._id}/>
                 )) : ''}
 
             </div>
-            {page < maxPage &&
+            {hasNext &&
             <Button size={"large"} className={classes.button} onClick={handleClick}>Afficher plus
             </Button>}
 

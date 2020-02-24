@@ -160,15 +160,23 @@ getPluginImage = async (req, res) => {
 };
 
 getPlugins = async (req, res) => {
-    await Plugin.find({}, (err, plugin) => {
-        if (err) {
-            return res.status(400).json({success: false, error: err})
-        }
-        if (!plugin.length) {
-            return res.status(200).json({success: true, error: `No plugin.`})
-        }
-        return res.status(200).json({success: true, data: plugin})
-    }).catch(err => console.log(err))
+    const perPage = 12;
+    const page = req.params.page || 1;
+
+    await Plugin.find({})
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec((err, plugin) => {
+            Plugin.count().exec(function (err, count) {
+                if (err) {
+                    return res.status(400).json({success: false, error: err})
+                }
+                if (!plugin.length) {
+                    return res.status(200).json({success: true, error: `No plugin.`})
+                }
+                return res.status(200).json({success: true, data: plugin, hasNext: page < Math.ceil(count / perPage)});
+            })
+        })
 };
 
 addComment = async (req, res) => {

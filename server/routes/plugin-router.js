@@ -25,7 +25,7 @@ router.post('/', auth, upload.fields([{name: 'image'}, {name: 'plugin'}]), Plugi
 router.put('/:id', PluginController.updatePlugin);
 router.delete('/:id', PluginController.deletePlugin);
 router.get('/:id', PluginController.getPluginById);
-router.get('/', PluginController.getPlugins);
+router.get('/page/:page', PluginController.getPlugins);
 
 router.get('/:id/image', PluginController.getPluginImage);
 
