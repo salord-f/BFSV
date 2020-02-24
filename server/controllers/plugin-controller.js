@@ -147,7 +147,7 @@ getPluginById = async (req, res) => {
 };
 
 getPluginImage = async (req, res) => {
-    console.log('getting plugin');
+    // console.log('getting plugin');
     if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).json({success: false, error: 'Invalid id.'})
     }

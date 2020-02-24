@@ -18,7 +18,7 @@ createUser = (req, res) => {
     const user = new User(body);
 
     if (!user) {
-        return res.status(400).json({ success: false, message: 'Wrong user format.' })
+        return res.status(400).json({success: false, message: 'Wrong user format.'})
     }
 
     user.save()
@@ -49,7 +49,7 @@ updateUser = async (req, res) => {
         })
     }
 
-    User.findOne({ _id: req.params.id }, (err, user) => {
+    User.findOne({_id: req.params.id}, (err, user) => {
         if (err) {
             return res.status(404).json({
                 err,
@@ -79,30 +79,30 @@ updateUser = async (req, res) => {
 };
 
 deleteUser = async (req, res) => {
-    await User.findOneAndDelete({ _id: req.params.id }, (err, user) => {
+    await User.findOneAndDelete({_id: req.params.id}, (err, user) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err })
+            return res.status(400).json({success: false, error: err})
         }
 
         if (!user) {
             return res
                 .status(404)
-                .json({ success: false, error: `User not found.` })
+                .json({success: false, error: `User not found.`})
         }
 
-        return res.status(200).json({ success: true, data: user })
+        return res.status(200).json({success: true, data: user})
     }).catch(err => console.log(err))
 };
 
 getUserById = async (req, res) => {
-    await User.findOne({ _id: req.params.id }, (err, user) => {
+    await User.findOne({_id: req.params.id}, (err, user) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err })
+            return res.status(400).json({success: false, error: err})
         }
-        if(!user) {
-            return res.status(404).json({ success: false, data: user })
+        if (!user) {
+            return res.status(404).json({success: false, data: user})
         }
-        return res.status(200).json({ success: true, data: user })
+        return res.status(200).json({success: true, data: user})
     }).catch(err => console.log(err))
 };
 
@@ -110,20 +110,20 @@ getUsers = async (req, res) => {
     // console.log(req.body.mail);
     await User.find({}, (err, user) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err })
+            return res.status(400).json({success: false, error: err})
         }
         if (!user.length) {
-            return res.status(200).json({ success: false, error: `No user.` })
+            return res.status(200).json({success: false, error: `No user.`})
         }
-        return res.status(200).json({ success: true, data: user })
+        return res.status(200).json({success: true, data: user})
     }).catch(err => console.log(err))
 };
 
 login = async (req, res) => {
     const body = req.body;
-    await User.findOne({ mail: body.mail }, (err, user) => {
+    await User.findOne({mail: body.mail}, (err, user) => {
         if (err) {
-            return res.status(400).json({ success: false, error: err })
+            return res.status(400).json({success: false, error: err})
         }
         if (!user) {
             res.status(403).send('User doesn\'t exist.');
@@ -132,7 +132,7 @@ login = async (req, res) => {
             user.comparePassword(body.password, (err, correct) => {
                 //console.log('Correct password : ' + correct);
                 if (correct) {
-                    jwt.sign({ user }, 'BaPtIsTeLeGaY', { expiresIn: '24h' }, (err, token) => {
+                    jwt.sign({user}, 'BaPtIsTeLeGaY', {expiresIn: '24h'}, (err, token) => {
                         if (err) {
                             console.log(err)
                         }
@@ -163,7 +163,7 @@ addToCart = async (req, res) => {
     }
 
 
-    User.findOne({ _id: req.params.id }, (err, user) => {
+    User.findOne({_id: req.params.id}, (err, user) => {
         if (err) {
             return res.status(404).json({
                 err,
@@ -189,7 +189,7 @@ addToCart = async (req, res) => {
 };
 
 getMyCart = async (req, res) => {
-    User.findOne({ _id: req.params.id }, async (err, user) => {
+    User.findOne({_id: req.params.id}, async (err, user) => {
         if (err) {
             return res.status(404).json({
                 err,
@@ -197,20 +197,17 @@ getMyCart = async (req, res) => {
             })
         }
         console.log("USER CART LENGTH : " + user.cart.length);
-        let pluginsCart = [];
-        user.cart.map((value, index) => {
-            const myPlugin = new Promise((resolve, reject) => {
-                Plugin.findOne({ _id: value }, (err, plugin) => {
-                    if (err) {
-                        console.error(err);
-                    }
-                    resolve(plugin);
-                }).catch(err => console.log(err))
+        let plugins = user.cart.map((value, index) => {
+            return Plugin.findOne({_id: value}, (err, plugin) => {
+                if (err) {
+                    console.error(err);
+                    return err;
+                }
+                return plugin;
             });
-            pluginsCart.push(myPlugin);
         });
 
-        Promise.all(pluginsCart).then(function (results) {
+        Promise.all(plugins).then(function (results) {
             return res.status(200).json({
                 success: true,
                 message: 'Cart updated.',
@@ -233,7 +230,7 @@ deleteFromCart = async (req, res) => {
         })
     }
 
-    User.findOne({ _id: req.params.id }, (err, user) => {
+    User.findOne({_id: req.params.id}, (err, user) => {
         if (err) {
             return res.status(404).json({
                 err,
@@ -259,7 +256,7 @@ deleteFromCart = async (req, res) => {
 };
 
 payMyCart = async (req, res) => {
-    User.findOne({ _id: req.params.id }, (err, user) => {
+    User.findOne({_id: req.params.id}, (err, user) => {
         if (err) {
             return res.status(404).json({
                 err,
@@ -287,8 +284,34 @@ payMyCart = async (req, res) => {
                 })
             })
     })
+};
 
-}
+getUserPurchasedPlugins = async (req, res) => {
+    User.findOne({_id: req.params.id}, async (err, user) => {
+        if (err) {
+            return res.status(404).json({
+                err,
+                message: 'User not found.',
+            })
+        }
+        const plugins = user.purchasedPlugins.map(async (value, index) => {
+            return Plugin.findOne({_id: value}, (err, plugin) => {
+                if (err) {
+                    console.error(err);
+                    return err;
+                }
+                return plugin
+            });
+        });
+        Promise.all(plugins).then(function (results) {
+            console.log(results);
+            return res.status(200).json({
+                success: true,
+                data: results
+            })
+        });
+    });
+};
 
 module.exports = {
     createUser,
@@ -299,6 +322,7 @@ module.exports = {
     login,
     addToCart,
     getMyCart,
+    payMyCart,
     deleteFromCart,
-    payMyCart
+    getUserPurchasedPlugins
 };

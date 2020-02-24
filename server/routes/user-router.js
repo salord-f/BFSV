@@ -18,4 +18,6 @@ router.get('/:id/cart/pay', UserController.payMyCart);
 router.put('/:id/cart', UserController.addToCart);
 router.delete('/:id/cart', UserController.deleteFromCart);
 
+router.get('/:id/purchasedplugins', UserController.getUserPurchasedPlugins);
+
 module.exports = router;

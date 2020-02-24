@@ -12,10 +12,17 @@ export default function UserPlugins(props) {
     const login = useSelector(state => state.tokenReducer);
 
     const [plugins, setPlugins] = useState([]);
+    const [purchasedPlugins, setPurchasedPlugins] = useState([]);
 
     useEffect(() => {
         try {
             api.getUserPlugins(login.user.mail).then(result => setPlugins(result.data.data));
+        } catch (e) {
+            console.log(e);
+        }
+
+        try {
+            api.getUserPurchasedPlugins(login.user._id).then(result => setPurchasedPlugins(result.data.data));
         } catch (e) {
             console.log(e);
         }
@@ -28,14 +35,22 @@ export default function UserPlugins(props) {
                 <Grid item style={{"padding": "40px"}}>
                     <Card>
                         <div className="pluginsGrid">
+                            {purchasedPlugins ? purchasedPlugins.map((plugin) => (
+                                <Plugin name={plugin.name} description={plugin.description} id={plugin._id}
+                                        key={plugin._id + plugin.name}/>
+                            )) : ''}
+                        </div>
+                    </Card>
+                </Grid>
+                <Grid item style={{"padding": "40px"}}>
+                    <Card>
+                        <div className="pluginsGrid">
                             {plugins ? plugins.map((plugin) => (
                                 <Plugin name={plugin.name} description={plugin.description} id={plugin._id}
                                         key={plugin._id + plugin.name}/>
                             )) : ''}
                         </div>
                     </Card>
-
-
                 </Grid>
                 <Grid item style={{"padding": "40px"}}>
                     <Card>

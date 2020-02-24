@@ -20,6 +20,7 @@ export const payMyCart = (id) => api.get('users/' + id + '/cart/pay');
 export const updateCart = (id, payload) => api.put('users/' + id + '/cart', payload);
 export const removeItemToCart = (id, plugin) => api.delete('users/' + id + '/cart', { data: { plugin } });
 export const getUserPlugins = mail => api.get('plugins/author/' + mail);
+export const getUserPurchasedPlugins = id => api.get('users/' + id + '/purchasedplugins');
 
 const apis = {
     createPlugin,
@@ -34,6 +35,7 @@ const apis = {
     deleteLike,
     removeItemToCart,
     getUserPlugins,
+    getUserPurchasedPlugins,
     payMyCart
 };
 
