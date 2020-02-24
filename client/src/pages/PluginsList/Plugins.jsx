@@ -9,7 +9,7 @@ import {createStyles, makeStyles} from "@material-ui/core/styles";
 export default function Plugins(props) {
     const [plugins, setPlugins] = useState([]);
     const [page, setPage] = useState(1);
-    const [hasNext, setHasNext] = useState(true);
+    const [hasNext, setHasNext] = useState(false);
 
     const useStyles = makeStyles(() =>
         createStyles({
@@ -35,7 +35,7 @@ export default function Plugins(props) {
             setPlugins(result.data.data);
             setHasNext(result.data.hasNext);
         });
-    }, [plugins]);
+    }, []);
 
     const handleClick = () => {
         setPage(page + 1);
