@@ -14,8 +14,9 @@ export const getPlugin = id => api.get('/plugins/' + id);
 export const addComment = (id, payload) => api.post('/plugins/' + id + "/comments", payload);
 export const getPlugins = () => api.get('/plugins');
 export const addLike = (id, payload) => api.post('/plugins/' + id + '/likes', payload);
-export const deleteLike = (id, payload) => api.delete('/plugins/' + id + '/likes',{data:payload});
+export const deleteLike = (id, payload) => api.delete('/plugins/' + id + '/likes', { data: payload });
 export const getMyCart = (id) => api.get('users/' + id + '/cart');
+export const payMyCart = (id) => api.get('users/' + id + '/cart/pay');
 export const updateCart = (id, payload) => api.put('users/' + id + '/cart', payload);
 export const removeItemToCart = (id, plugin) => api.delete('users/' + id + '/cart', { data: { plugin } });
 export const getUserPlugins = mail => api.get('plugins/author/' + mail);
@@ -32,7 +33,8 @@ const apis = {
     addLike,
     deleteLike,
     removeItemToCart,
-    getUserPlugins
+    getUserPlugins,
+    payMyCart
 };
 
 export default apis

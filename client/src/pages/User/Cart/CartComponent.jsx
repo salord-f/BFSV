@@ -56,7 +56,7 @@ export default function Cart() {
             >
                 <div style={{ width: '80%', height: '80%', backgroundColor: "white", padding: "3em", marginLeft: "10%", marginTop: "5%" }}>
 
-                    <Checkout />
+                    <Checkout onClose={handleClose} />
                 </div>
             </Modal>
             <Typography style={{

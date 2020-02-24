@@ -258,6 +258,38 @@ deleteFromCart = async (req, res) => {
     })
 };
 
+payMyCart = async (req, res) => {
+    User.findOne({ _id: req.params.id }, (err, user) => {
+        if (err) {
+            return res.status(404).json({
+                err,
+                message: 'User not found.',
+            })
+        }
+        user.cart.map((plugin) => {
+            if (user.purchasedPlugins.includes(plugin))
+                return;
+            else
+                user.purchasedPlugins.push(plugin);
+        })
+        user.cart = [];
+        user.save()
+            .then(() => {
+                return res.status(200).json({
+                    success: true,
+                    message: 'Cart updated.',
+                })
+            })
+            .catch(error => {
+                return res.status(404).json({
+                    error,
+                    message: 'Error payement.',
+                })
+            })
+    })
+
+}
+
 module.exports = {
     createUser,
     updateUser,
@@ -268,4 +300,5 @@ module.exports = {
     addToCart,
     getMyCart,
     deleteFromCart,
+    payMyCart
 };

@@ -5,6 +5,9 @@ import Typography from '@material-ui/core/Typography';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
+import apis from '../../../api';
+import { useDispatch, useSelector } from 'react-redux';
+import REDUX_KEY from '../../../redux/ReduxKeys';
 
 
 const useStyles = makeStyles(theme => ({
@@ -59,13 +62,26 @@ function getStepContent(step) {
     }
 }
 
-export default function Checkout() {
+export default function Checkout(props) {
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
+
+    const dispatch = useDispatch();
+    const loginReducer = useSelector(state => state.tokenReducer);
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
     };
+
+    const payMyCart = () => {
+        if (loginReducer.user === undefined)
+            window.alert("Erreur veuillez-vous reconnecter");
+        else {
+            apis.payMyCart(loginReducer.user._id);
+            dispatch({ type: REDUX_KEY.REMOVE_ALL_ITEMS });
+            handleNext();
+        }
+    }
 
     const handleBack = () => {
         setActiveStep(activeStep - 1);
@@ -77,12 +93,21 @@ export default function Checkout() {
             {activeStep === steps.length ? (
                 <React.Fragment>
                     <Typography variant="h5" gutterBottom>
-                        Thank you for your order.
+                        Merci pour votre commande
                 </Typography>
                     <Typography variant="subtitle1">
-                        Your order number is #2001539. We have emailed your order confirmation, and will
-                        send you an update when your order has shipped.
+                        Votre numero de commande est le : #2001539. Vous allez recevoir un mail de confirmation avec la facture de celle-ci.
                 </Typography>
+                    <div className={classes.buttons}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={props.onClose}
+                            className={classes.button}
+                        >
+                            Finir
+                    </Button>
+                    </div>
                 </React.Fragment>
             ) : (
                     <React.Fragment>
@@ -90,17 +115,28 @@ export default function Checkout() {
                         <div className={classes.buttons}>
                             {activeStep !== 0 && (
                                 <Button onClick={handleBack} className={classes.button}>
-                                    Back
+                                    Retour
                     </Button>
                             )}
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleNext}
-                                className={classes.button}
-                            >
-                                {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                            {activeStep === steps.length - 1 ?
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={payMyCart}
+                                    className={classes.button}
+                                >
+                                    Valider votre commande
+                            </Button> :
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={handleNext}
+                                    className={classes.button}
+                                >
+                                    Suivant
                             </Button>
+                            }
+
                         </div>
                     </React.Fragment>
                 )}

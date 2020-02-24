@@ -14,6 +14,7 @@ router.get('/', auth, UserController.getUsers);
 router.post('/login', UserController.login);
 
 router.get('/:id/cart', UserController.getMyCart);
+router.get('/:id/cart/pay', UserController.payMyCart);
 router.put('/:id/cart', UserController.addToCart);
 router.delete('/:id/cart', UserController.deleteFromCart);
 
