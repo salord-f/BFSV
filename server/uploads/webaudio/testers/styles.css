@@ -1,0 +1,37 @@
+#WAP {
+    float: left;
+    width: 50%;
+    padding-top: 5%;
+    padding-left: 15%;
+}
+
+.urlRepo {
+    color: blue;
+}
+
+#mocha {
+    float: right;
+    width: 50%;
+    height: 100%;
+}
+
+#onetest {
+    display: flex;
+}
+
+#inputs {
+    display: grid;
+}
+
+#urlPlugin {
+    width: 300px;
+}
+
+#main {
+    float: left;
+    width: 50%
+}
+
+#layout {
+    display: flex;
+}

@@ -1,5 +1,7 @@
 node_modules
 .idea
-server/uploads/
+server/uploads/*
 
 !server/uploads/.gitkeep
+!server/uploads/images/.gitkeep
+!server/uploads/webaudio

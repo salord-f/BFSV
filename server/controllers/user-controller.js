@@ -221,8 +221,6 @@ getMyCart = async (req, res) => {
 deleteFromCart = async (req, res) => {
     const body = req.body;
 
-    console.log(req.body.plugin)
-
     if (!body || !body.plugin) {
         return res.status(400).json({
             success: false,
@@ -237,7 +235,7 @@ deleteFromCart = async (req, res) => {
                 message: 'User not found.',
             })
         }
-        user.cart = user.cart.filter(pluginId => pluginId != body.plugin);
+        user.cart = user.cart.filter(pluginId => pluginId !== body.plugin);
         user.save()
             .then(() => {
                 return res.status(200).json({

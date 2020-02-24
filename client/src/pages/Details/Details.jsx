@@ -120,13 +120,13 @@ function Details(props) {
     let x = Date.now();
 
     const addToCard = async (plugin, dispatch) => {
-        if (cartReducer.cart.filter(cartPlugin => cartPlugin._id == plugin._id).length) {
+        if (cartReducer.cart.filter(cartPlugin => cartPlugin._id === plugin._id).length) {
             toast.error("Ce plugin : " + plugin.name + " est déjà dans votre panier.");
             return;
         }
         let payload = {
             plugin: plugin._id
-        }
+        };
 
         await apis.updateCart(login.user._id, payload).then(res => {
             let ADD_ITEM_TO_CART = {
@@ -140,7 +140,7 @@ function Details(props) {
             console.log(err);
             toast.error("Plugin " + plugin.name + "n'est plus disponible");
         })
-    }
+    };
 
     useEffect(() => {
         apis.getPlugin(props.match.params.id).then((response) => {
@@ -250,6 +250,9 @@ function Details(props) {
                         </Grid>
                         <CardActions>
                             <Button size="large" variant="contained" href={tryURL + plugin.tryLink} target="_blank">Essayer !</Button>
+                        </CardActions>
+                        <CardActions>
+                            <Button size="large" variant="contained" href={tryURL + '/webaudio/testers/mocha.html?plugin=' + plugin.tryLink} target="_blank">Tester !</Button>
                         </CardActions>
                     </Card>
                 </Grid>
