@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -11,7 +11,7 @@ import {baseURL} from "../../api";
 import {createStyles, makeStyles} from "@material-ui/core/styles";
 
 export default function Plugin(props) {
-    const [image, setImage] = useState('');
+    const image = baseURL + "plugins/" + props.id + "/image";
 
     const useStyles = makeStyles(() =>
         createStyles({
@@ -25,12 +25,7 @@ export default function Plugin(props) {
         }));
 
     const classes = useStyles();
-
-    useEffect(() => {
-        const image = baseURL + "plugins/" + props.id + "/image";
-        setImage(image);
-    }, [image, props.id]);
-
+    
     return (
         <Card className="card" style={{backgroundColor: "#F3F3F3", border: 0}}>
             <CardActionArea className={classes.clickableCard} href={"/plugins/" + props.id}>

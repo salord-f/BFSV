@@ -9,7 +9,7 @@ export default function Plugins(props) {
 
     useEffect(() => {
         api.getPlugins().then(result => setPlugins(result.data.data));
-    }, []);
+    }, [plugins]);
 
     return (
         <div className="pluginsGrid">

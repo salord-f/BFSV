@@ -27,7 +27,7 @@ const CartItemCard = (props) => {
         let request = {
             type: REDUX_KEY.REMOVE_ITEM,
             value: props.plugin._id
-        }
+        };
         dispatch(request)
 
     };
