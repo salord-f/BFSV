@@ -99,7 +99,9 @@ getUserById = async (req, res) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
-
+        if(!user) {
+            return res.status(404).json({ success: false, data: user })
+        }
         return res.status(200).json({ success: true, data: user })
     }).catch(err => console.log(err))
 };
@@ -128,7 +130,7 @@ login = async (req, res) => {
         }
         if (body.password) {
             user.comparePassword(body.password, (err, correct) => {
-                console.log('Correct password : ' + correct);
+                //console.log('Correct password : ' + correct);
                 if (correct) {
                     jwt.sign({ user }, 'BaPtIsTeLeGaY', { expiresIn: '24h' }, (err, token) => {
                         if (err) {
@@ -136,7 +138,7 @@ login = async (req, res) => {
                         }
                         //console.log(token);
                         const decodedToken = jwt.verify(token, 'BaPtIsTeLeGaY');
-                        console.log(decodedToken.user);
+                        //console.log(decodedToken.user);
                         return res.send(token);
                     });
                 } else {
