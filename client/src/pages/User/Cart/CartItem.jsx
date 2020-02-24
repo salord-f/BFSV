@@ -23,14 +23,14 @@ const CartItemCard = (props) => {
     const removeItemFromCard = async () => {
         const plugin = props.plugin._id;
 
-        await apis.removeItemToCart(login.user._id, plugin);
+        apis.removeItemToCart(login.user._id, plugin).then(res => console.log(res));
         let request = {
             type: REDUX_KEY.REMOVE_ITEM,
             value: props.plugin._id
         }
         dispatch(request)
 
-    }
+    };
 
     const imageURL = "http://localhost:3000/plugins/" + props.plugin._id + "/image";
 

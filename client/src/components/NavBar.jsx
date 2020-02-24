@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { createStyles, fade, makeStyles } from '@material-ui/core/styles';
+import React, {useEffect} from 'react';
+import {createStyles, fade, makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,7 +12,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Logo from './../assets/img/logo/logo2.jpg';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Redirect, useHistory} from "react-router-dom";
 import REDUX_KEY from '../redux/ReduxKeys';
 import Button from "@material-ui/core/Button";
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) =>
             },
         },
         searchIcon: {
-            width: theme.spacing(7),
+            width: theme.spacing(5),
             height: '100%',
             position: 'absolute',
             pointerEvents: 'none',
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) =>
             justifyContent: 'center',
         },
         inputInput: {
-            padding: theme.spacing(1, 1, 1, 7),
+            padding: theme.spacing(1, 1, 1, 5),
             transition: theme.transitions.create('width'),
             width: '100%',
             [theme.breakpoints.up('sm')]: {
@@ -91,7 +91,8 @@ const useStyles = makeStyles((theme) =>
                     width: 200,
                 },
             },
-        },
+            borderBottom: "1px solid black"
+        }
     }),
 );
 
@@ -119,11 +120,14 @@ export default function PrimarySearchAppBar() {
     const [search, setSearch] = React.useState("");
     const [hasSearched, setHasSearched] = React.useState(false);
 
+
     useEffect(() => {
+        console.log(loginReducer.user);
         if (loginReducer.user === undefined)
             setIsConnected(false);
         else
             setIsConnected(true);
+
     }, [loginReducer.user, cartReducer]);
 
 
@@ -138,9 +142,9 @@ export default function PrimarySearchAppBar() {
 
     const renderCart = (
         <IconButton onClick={() => history.push("/user/cart")} aria-label="show 17 items presents on cart"
-            color="inherit">
+                    color="inherit">
             <Badge badgeContent={cartReducer.cart.length} color="secondary">
-                <ShoppingCartIcon />
+                <ShoppingCartIcon/>
             </Badge>
         </IconButton>
     );
@@ -151,7 +155,8 @@ export default function PrimarySearchAppBar() {
             <MenuItem key={"PLUGINS"} onClick={() => handleMenuClose('/user/plugins')}>Mes plugins</MenuItem>,
             <MenuItem key={"CART"} onClick={() => handleMenuClose('/user/cart')}>Mon panier</MenuItem>,
             <MenuItem key={"DISCONNEXION"} onClick={() => {
-                dispatch({ type: REDUX_KEY.LOGIN, value: undefined });
+                dispatch({type: REDUX_KEY.LOGIN, value: undefined});
+                dispatch({type: REDUX_KEY.REMOVE_ALL_ITEMS});
                 setAnchorEl(null);
             }}>Se deconnecter</MenuItem>
         ]
@@ -170,10 +175,10 @@ export default function PrimarySearchAppBar() {
     const renderMenu = (
         <Menu
             anchorEl={anchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            anchorOrigin={{vertical: 'top', horizontal: 'right'}}
             id={menuId}
             keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            transformOrigin={{vertical: 'top', horizontal: 'right'}}
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
@@ -190,7 +195,7 @@ export default function PrimarySearchAppBar() {
         <div className={classes.grow}>
             {hasSearched && <Redirect to={{
                 pathname: '/',
-                state: { search: search }
+                state: {search: search}
             }}
             />}
             <AppBar className={classes.tabNav} position="static">
@@ -201,17 +206,17 @@ export default function PrimarySearchAppBar() {
                         className={classes.menuButton}
                         aria-label="open drawer"
                     >
-                        <CardMedia image={Logo} style={{ height: 50, width: "100%", backgroundSize: "contain" }} />
+                        <CardMedia image={Logo} style={{height: 50, width: "100%", backgroundSize: "contain"}}/>
                     </IconButton>
                     <Button size={"medium"} className={classes.title} href={"/"}>
                         BFSV
                     </Button>
-                    <div className={classes.grow} />
+                    <div className={classes.grow}/>
                     <div className={classes.sectionDesktop}>
 
                         <div className={classes.search}>
                             <div className={classes.searchIcon}>
-                                <SearchIcon />
+                                <SearchIcon/>
                             </div>
                             <InputBase
                                 placeholder="Search…"
@@ -219,8 +224,8 @@ export default function PrimarySearchAppBar() {
                                     root: classes.inputRoot,
                                     input: classes.inputInput,
                                 }}
-                                inputProps={{ 'aria-label': 'search' }}
-                                onChange={event=>{                                 //adding the onChange event
+                                inputProps={{'aria-label': 'search'}}
+                                onChange={event => {                                 //adding the onChange event
                                     setHasSearched(true);
                                     setSearch(event.target.value);
                                 }}
@@ -238,7 +243,7 @@ export default function PrimarySearchAppBar() {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            <AccountCircle />
+                            <AccountCircle/>
                         </IconButton>
                     </div>
                 </Toolbar>

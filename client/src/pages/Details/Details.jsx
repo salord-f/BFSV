@@ -111,6 +111,7 @@ function Details(props) {
     const [error, setError] = useState(false);
     const [comment, setComment] = useState('');
     const login = useSelector(state => state.tokenReducer);
+    const cartReducer = useSelector(state => state.cartReducer);
     const isConnected = !(login.user === undefined);
 
     const dispatch = useDispatch();
@@ -118,6 +119,10 @@ function Details(props) {
     let x = Date.now();
 
     const addToCard = async (plugin, dispatch) => {
+        if (cartReducer.cart.filter(cartPlugin => cartPlugin._id == plugin._id).length) {
+            toast.error("Ce plugin : " + plugin.name + " est déjà dans votre panier.");
+            return;
+        }
         let payload = {
             plugin: plugin._id
         }
@@ -128,11 +133,11 @@ function Details(props) {
                 value: plugin
             };
             dispatch(ADD_ITEM_TO_CART);
-            toast.success("Plugin " + plugin.name + " added to cart.");
+            toast.success("Plugin " + plugin.name + " a été ajouté à votre panier.");
 
         }).catch((err) => {
             console.log(err);
-            toast.error("Plugin " + plugin.name + "is no longer available ");
+            toast.error("Plugin " + plugin.name + "n'est plus disponible");
         })
     }
 
@@ -269,11 +274,11 @@ function Details(props) {
                             </Grid>
                         </Grid>
                         <CardActions>
-                        <Button size="small" href={tryURL + plugin.tryLink} target="_blank">Essayer !</Button>
-                    </CardActions>
-                </Card>
-            </Grid>
-            <Grid item xs={8} style={{marginTop:"20px",width:"100%"}}>
+                            <Button size="small" href={tryURL + plugin.tryLink} target="_blank">Essayer !</Button>
+                        </CardActions>
+                    </Card>
+                </Grid>
+                <Grid item xs={8} style={{ marginTop: "20px", width: "100%" }}>
                     {
                         plugin.comments &&
                         plugin.comments.map((item, index) => (
