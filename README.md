@@ -53,6 +53,7 @@ npm start
 For the second:
 
 ```
+# still in server folder
 npm run http-server
 ```
 
