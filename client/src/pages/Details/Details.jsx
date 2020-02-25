@@ -251,9 +251,11 @@ function Details(props) {
                         <CardActions>
                             <Button size="large" variant="contained" href={tryURL + plugin.tryLink} target="_blank">Essayer !</Button>
                         </CardActions>
-                        <CardActions>
-                            <Button size="large" variant="contained" href={tryURL + '/webaudio/testers/mocha.html?plugin=' + plugin.tryLink} target="_blank">Tester !</Button>
-                        </CardActions>
+                        {
+                            login.user !== undefined &&  login.user.mail === plugin.author ? <CardActions>
+                                <Button size="large" variant="contained" href={tryURL + '/webaudio/testers/mocha.html?plugin=' + plugin.tryLink} target="_blank">Tester !</Button>
+                            </CardActions> : ''
+                        }
                     </Card>
                 </Grid>
                 <Grid item xs={8} style={{ marginTop: "20px", width: "100%" }}>

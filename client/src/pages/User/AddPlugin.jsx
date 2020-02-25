@@ -253,9 +253,11 @@ export default function AddPlugin(props) {
                         />
                     </Grid>
                 </Grid>
+                <Grid item xs={12} style={{"padding": "0px 40px 40px 40px"}}>
+                    <Button type="submit" onClick={handleSubmit}
+                            style={{ "width": "100%"}}>Valider</Button>
+                </Grid>
 
-                <Button type="submit" onClick={handleSubmit}
-                    style={{ "width": "100%", "marginTop": "10px" }}>Valider</Button>
             </Grid>
         </>
     );

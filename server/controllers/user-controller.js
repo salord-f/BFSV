@@ -125,9 +125,10 @@ login = async (req, res) => {
         if (err) {
             return res.status(400).json({success: false, error: err})
         }
-        if (!user) {
-            res.status(403).send('User doesn\'t exist.');
+        if (user === null) {
+            return res.status(403).send('User doesn\'t exist.');
         }
+        console.log(user);
         if (body.password) {
             user.comparePassword(body.password, (err, correct) => {
                 //console.log('Correct password : ' + correct);
