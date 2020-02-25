@@ -8,6 +8,7 @@ const api = axios.create({
 });
 
 export const createPlugin = (payload, headers) => api.post('/plugins', payload, headers);
+export const modifyPlugin = (id, payload, headers) => api.put('plugins/' + id, payload, headers);
 export const createAnAccount = payload => api.post('users', payload);
 export const connectToAccount = payload => api.post('users/login', payload);
 export const getPlugin = id => api.get('/plugins/' + id);
@@ -24,6 +25,7 @@ export const getUserPurchasedPlugins = id => api.get('users/' + id + '/purchased
 
 const apis = {
     createPlugin,
+    modifyPlugin,
     createAnAccount,
     connectToAccount,
     getPlugins,

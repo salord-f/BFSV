@@ -7,8 +7,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 
 import "../../style/plugin.scss";
 import ImageAsync from "react-image-async";
-import {baseURL} from "../../api";
-import {createStyles, makeStyles} from "@material-ui/core/styles";
+import { baseURL } from "../../api";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 export default function Plugin(props) {
     const image = baseURL + "plugins/" + props.id + "/image";
@@ -27,13 +27,13 @@ export default function Plugin(props) {
     const classes = useStyles();
 
     return (
-        <Card className="card" style={{backgroundColor: "#F3F3F3", border: 0}}>
-            <CardActionArea className={classes.clickableCard} href={"/plugins/" + props.id}>
-                <CardHeader className="title" title={props.name ? props.name : "Your plugin title"}/>
-                <CardMedia className="media" style={{display: "flex"}}>
+        <Card className="card" style={{ backgroundColor: "#F3F3F3", border: 0 }}>
+            <CardActionArea className={classes.clickableCard} href={props.href ? props.href : "/plugins/" + props.id}>
+                <CardHeader className="title" title={props.name ? props.name : "Your plugin title"} />
+                <CardMedia className="media" style={{ display: "flex" }}>
                     <ImageAsync src={image}>
-                        {({loaded, error}) =>
-                            loaded ? <img className="mediaImage" alt="Loading..." src={image}/> : <div>Loading...</div>
+                        {({ loaded, error }) =>
+                            loaded ? <img className="mediaImage" alt="Loading..." src={image} /> : <div>Loading...</div>
                         }
                     </ImageAsync>
                 </CardMedia>

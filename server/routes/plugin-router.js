@@ -21,7 +21,7 @@ const PluginController = require('../controllers/plugin-controller');
 
 const router = express.Router();
 
-router.post('/', auth, upload.fields([{name: 'image'}, {name: 'plugin'}]), PluginController.createPlugin);
+router.post('/', auth, upload.fields([{ name: 'image' }, { name: 'plugin' }]), PluginController.createPlugin);
 router.put('/:id', PluginController.updatePlugin);
 router.delete('/:id', PluginController.deletePlugin);
 router.get('/:id', PluginController.getPluginById);

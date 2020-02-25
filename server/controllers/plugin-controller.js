@@ -12,6 +12,7 @@ const path = require('path');
 
 createPlugin = (req, res) => {
     const body = req.body;
+    console.log("create a plugin")
 
     if (!body || !body.name || !body.description || !body.version) {
         error.errorHandler(res, 'Plugin upload without information.');
@@ -30,7 +31,7 @@ createPlugin = (req, res) => {
     console.log('zip');
     console.log(pluginZip);
 
-    yauzl.open(pluginZip.path, {lazyEntries: true}, function (err, zipfile) {
+    yauzl.open(pluginZip.path, { lazyEntries: true }, function (err, zipfile) {
         if (err) throw err;
         unzip(err, zipfile, req.files.plugin[0].path.slice(0, -4));
     });
@@ -48,7 +49,7 @@ createPlugin = (req, res) => {
 
     const plugin = new Plugin(body);
     if (!plugin) {
-        return res.status(400).json({success: false, message: 'Wrong plugin format.'})
+        return res.status(400).json({ success: false, message: 'Wrong plugin format.' })
     }
     console.log('Plugin created.');
     console.log(plugin);
@@ -83,18 +84,25 @@ updatePlugin = async (req, res) => {
         })
     }
     if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({success: false, error: 'Invalid id.'})
+        return res.status(400).json({ success: false, error: 'Invalid id.' })
     }
-    Plugin.findOne({_id: req.params.id}, (err, plugin) => {
+    Plugin.findOne({ _id: req.params.id }, (err, plugin) => {
         if (err) {
             return res.status(404).json({
                 err,
                 message: 'Plugin not found.',
             })
         }
-        /*plugin.name = body.name;
-        plugin.time = body.time;
-        plugin.rating = body.rating;*/
+
+        plugin.name = body.name;
+        plugin.version = body.version;
+        plugin.description = body.description;
+        plugin.price = body.price;
+        plugin.categories = body.categories;
+        plugin.codeLink = body.codeLink;
+        plugin.youtubeLink = body.youtubeLink;
+        plugin.visible = body.visible;
+
         // TODO
         plugin.save()
             .then(() => {
@@ -116,44 +124,44 @@ updatePlugin = async (req, res) => {
 
 deletePlugin = async (req, res) => {
     if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({success: false, error: 'Invalid id.'})
+        return res.status(400).json({ success: false, error: 'Invalid id.' })
     }
-    await Plugin.findOneAndDelete({_id: req.params.id}, (err, plugin) => {
+    await Plugin.findOneAndDelete({ _id: req.params.id }, (err, plugin) => {
         if (err) {
-            return res.status(400).json({success: false, error: err})
+            return res.status(400).json({ success: false, error: err })
         }
 
         if (!plugin) {
             return res
                 .status(404)
-                .json({success: false, error: `Plugin not found.`})
+                .json({ success: false, error: `Plugin not found.` })
         }
 
-        return res.status(200).json({success: true, data: plugin})
+        return res.status(200).json({ success: true, data: plugin })
     }).catch(err => console.log(err))
 };
 
 getPluginById = async (req, res) => {
     if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({success: false, error: 'Invalid id.'})
+        return res.status(400).json({ success: false, error: 'Invalid id.' })
     }
-    await Plugin.findOne({_id: req.params.id}, (err, plugin) => {
+    await Plugin.findOne({ _id: req.params.id }, (err, plugin) => {
         if (err) {
-            return res.status(400).json({success: false, error: err})
+            return res.status(400).json({ success: false, error: err })
         }
 
-        return res.status(200).json({success: true, data: plugin})
+        return res.status(200).json({ success: true, data: plugin })
     }).catch(err => console.log(err))
 };
 
 getPluginImage = async (req, res) => {
     // console.log('getting plugin');
     if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({success: false, error: 'Invalid id.'})
+        return res.status(400).json({ success: false, error: 'Invalid id.' })
     }
-    await Plugin.findOne({_id: req.params.id}, (err, plugin) => {
+    await Plugin.findOne({ _id: req.params.id }, (err, plugin) => {
         if (err) {
-            return res.status(400).json({success: false, error: err})
+            return res.status(400).json({ success: false, error: err })
         }
         return res.status(200).sendFile(path.resolve(plugin.image));
     }).catch(err => console.log(err))
@@ -163,80 +171,80 @@ getPlugins = async (req, res) => {
     const perPage = 12;
     const page = req.params.page;
 
-    await Plugin.find({})
+    await Plugin.find({ visible: true })
         .skip((perPage * page) - perPage)
         .limit(perPage)
         .exec((err, plugin) => {
             Plugin.count().exec(function (err, count) {
                 if (err) {
-                    return res.status(400).json({success: false, error: err})
+                    return res.status(400).json({ success: false, error: err })
                 }
                 if (!plugin.length) {
-                    return res.status(200).json({success: true, error: `No plugin.`})
+                    return res.status(200).json({ success: true, error: `No plugin.` })
                 }
-                return res.status(200).json({success: true, data: plugin, hasNext: page < Math.ceil(count / perPage)});
+                return res.status(200).json({ success: true, data: plugin, hasNext: page < Math.ceil(count / perPage) });
             })
         })
 };
 
 addComment = async (req, res) => {
     if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({success: false, error: 'Invalid id.'})
+        return res.status(400).json({ success: false, error: 'Invalid id.' })
     }
     if (!req.body) {
         error.errorHandler(res, 'Trying to add a comment without content.');
     }
-    Plugin.findOne({_id: req.params.id}, async (err, plugin) => {
+    Plugin.findOne({ _id: req.params.id }, async (err, plugin) => {
         if (err) {
-            return res.status(400).json({success: false, error: err})
+            return res.status(400).json({ success: false, error: err })
         }
         const comment = new Comment(req.body);
         plugin.comments.push(comment);
         await plugin.save();
-        return res.status(200).json({success: true, data: plugin.comments})
+        return res.status(200).json({ success: true, data: plugin.comments })
     }).catch(err => console.log(err))
 };
 
 addLike = async (req, res) => {
     if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({success: false, error: 'Invalid id.'})
+        return res.status(400).json({ success: false, error: 'Invalid id.' })
     }
     if (!req.body) {
         error.errorHandler(res, 'Trying to add a like without email adress.');
     }
-    Plugin.findOne({_id: req.params.id}, async (err, plugin) => {
+    Plugin.findOne({ _id: req.params.id }, async (err, plugin) => {
         if (err) {
-            return res.status(400).json({success: false, error: err})
+            return res.status(400).json({ success: false, error: err })
         }
         plugin.likes.push(req.body.email);
         await plugin.save();
-        return res.status(200).json({success: true, data: plugin.likes})
+        return res.status(200).json({ success: true, data: plugin.likes })
     }).catch(err => console.log(err))
 };
 
 deleteLike = async (req, res) => {
     if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).json({success: false, error: 'Invalid id.'})
+        return res.status(400).json({ success: false, error: 'Invalid id.' })
     }
     if (!req.body) {
         error.errorHandler(res, 'Trying to remove a like without email address.');
     }
-    Plugin.findOne({_id: req.params.id}, async (err, plugin) => {
+    Plugin.findOne({ _id: req.params.id }, async (err, plugin) => {
         if (err) {
-            return res.status(400).json({success: false, error: err})
+            return res.status(400).json({ success: false, error: err })
         }
         plugin.likes = plugin.likes.filter(like => like !== req.body.email);
         await plugin.save();
-        return res.status(200).json({success: true, data: plugin.likes})
+        return res.status(200).json({ success: true, data: plugin.likes })
     }).catch(err => console.log(err))
 };
 
 getUserPlugins = async (req, res) => {
-    await Plugin.find({author: req.params.mail}, (err, plugins) => {
+    await Plugin.find({ author: req.params.mail }, (err, plugins) => {
         if (err) {
-            return res.status(400).json({success: false, error: err})
+            return res.status(400).json({ success: false, error: err })
         }
-        return res.status(200).json({success: true, data: plugins})
+        return res.status(200).json({ success: true, data: plugins })
     }).catch(err => console.log(err))
 };
 

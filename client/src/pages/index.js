@@ -5,5 +5,6 @@ import Plugins from './PluginsList/Plugins'
 import Profile from './User/Profile'
 import UserPlugins from './User/UserPlugins'
 import Cart from './User/Cart/CartComponent'
+import ModifyPlugin from './User/ModifyPlugin'
 
-export { LoginPage, AdminPage, Details, Plugins, Profile, UserPlugins, Cart }
+export { LoginPage, AdminPage, Details, Plugins, Profile, UserPlugins, Cart, ModifyPlugin }

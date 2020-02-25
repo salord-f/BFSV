@@ -3,14 +3,14 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux'
 import myReducer from '../redux/ReduxStore'
 import { NavBar } from '../components'
-import { AdminPage, Cart, Details, LoginPage, Plugins, Profile, UserPlugins } from '../pages';
+import { AdminPage, Cart, Details, LoginPage, Plugins, Profile, UserPlugins, ModifyPlugin } from '../pages';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import * as storage from 'redux-storage';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import createEngine from 'redux-storage-engine-localstorage';
 import REDUX_KEY from '../redux/ReduxKeys';
 import { ToastContainer } from "react-toastify";
-import {NotFound} from "../pages/NotFound";
+import { NotFound } from "../pages/NotFound";
 import apis from '../api';
 
 
@@ -65,6 +65,7 @@ function MainRoute() {
                 <Route path="/admin" exact component={AdminPage} />
                 <Route path="/user/profile" exact component={Profile} />
                 <Route path="/user/plugins" exact component={UserPlugins} />
+                <Route path="/user/modify/:id" exact component={ModifyPlugin} />
                 <Route path="/user/cart" exact component={Cart} />
                 <Route path="/" exact component={Plugins} />
                 <Route path='*' exact={true} component={NotFound} />

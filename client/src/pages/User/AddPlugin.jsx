@@ -5,7 +5,7 @@ import api from './../../api'
 import Typography from "@material-ui/core/Typography";
 import { useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 
@@ -35,7 +35,7 @@ export default function AddPlugin(props) {
         "REVERB"];
 
     const cat = cats.map((o) => {
-        return {value: o.toString(), label: o.toString().charAt(0) + o.toString().slice(1).toLowerCase()}
+        return { value: o.toString(), label: o.toString().charAt(0) + o.toString().slice(1).toLowerCase() }
     });
 
 
@@ -57,7 +57,7 @@ export default function AddPlugin(props) {
 
     const handleSubmit = async (event) => {
         const regex = RegExp('\\d.\\d.\\d');
-        if(!name || !description || !version || !image || !plugin){
+        if (!name || !description || !version || !image || !plugin) {
             toast.error(<div>
                 <p>Veuillez remplir les champs suivants</p>
                 <ul>
@@ -67,10 +67,10 @@ export default function AddPlugin(props) {
                     {!image && <li>Image</li>}
                     {!plugin && <li>Code du plugin</li>}
                 </ul>
-                </div>)
-        } else if(!regex.test(version)) {
+            </div>)
+        } else if (!regex.test(version)) {
             toast.error("Veuillez entrer un numéro de version valide.")
-        } else if(plugin.name.split('.').pop()!=="zip") {
+        } else if (plugin.name.split('.').pop() !== "zip") {
             toast.error("Le plugin doit etre au format .zip")
         } else {
             toast.success("Votre plugin a bien été ajouté.")
@@ -82,11 +82,11 @@ export default function AddPlugin(props) {
             formData.append('image', image);
             formData.append('plugin', plugin);
             formData.append('author', login.user.mail);
-            formData.append('price', price);
-            formData.append('codeLink',code);
-            formData.append('youtubeLink',video);
-            tags.map( (t) => formData.append('tags[]',t.value) );
-            categories.map( (c) => formData.append('categories[]',c) );
+            formData.append('price', price ? price : 0);
+            formData.append('codeLink', code);
+            formData.append('youtubeLink', video);
+            //tags.map((t) => formData.append('tags[]', t.value));
+            categories.map((c) => formData.append('categories[]', c));
             await api.createPlugin(formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -136,7 +136,7 @@ export default function AddPlugin(props) {
         setVideo(event.target.value)
     };
     const handleCategoriesChange = (event) => {
-        const temp = event.map( (c) => c.value)
+        const temp = event.map((c) => c.value)
         setCategories(temp)
     };
     const handleTagsChange = (event) => {
@@ -170,7 +170,7 @@ export default function AddPlugin(props) {
             <Grid container spacing={10} style={{ "padding": "20px" }} padding={"20px"} direction="row">
                 <Grid item xs={12}>
                     <Typography variant="h5"
-                                style={{ "width": "100%", "marginTop": "10px" }}>Ajouter un plugin</Typography>
+                        style={{ "width": "100%", "marginTop": "10px" }}>Ajouter un plugin</Typography>
                 </Grid>
                 <Grid item xs={6}>
                     <Grid item>
@@ -218,15 +218,15 @@ export default function AddPlugin(props) {
                 </Grid>
                 <Grid item xs={6}>
                     <Grid item>
-                        <TextField label={'Prix'} onChange={handlePriceChange} style={{ "width": "100%", "marginTop": "10px" }}/>
+                        <TextField label={'Prix'} onChange={handlePriceChange} style={{ "width": "100%", "marginTop": "10px" }} />
                     </Grid>
                     <Grid item>
-                        <TextField label={'Lien du code'} onChange={handleCodeChange} style={{ "width": "100%", "marginTop": "10px" }}/>
+                        <TextField label={'Lien du code'} onChange={handleCodeChange} style={{ "width": "100%", "marginTop": "10px" }} />
                     </Grid>
                     <Grid item>
-                        <TextField label={'Lien YouTube'} onChange={handleVideoChange} style={{ "width": "100%", "marginTop": "10px" }}/>
+                        <TextField label={'Lien YouTube'} onChange={handleVideoChange} style={{ "width": "100%", "marginTop": "10px" }} />
                     </Grid>
-                    <Grid item style={{marginTop:"10px"}}>
+                    <Grid item style={{ marginTop: "10px" }}>
                         <Select
                             onChange={handleCategoriesChange}
                             closeMenuOnSelect={false}
@@ -237,7 +237,7 @@ export default function AddPlugin(props) {
                             classNamePrefix="select"
                         />
                     </Grid>
-                    <Grid item style={{marginTop:"10px"}}>
+                    <Grid item style={{ marginTop: "10px" }}>
                         <CreatableSelect
                             components={components}
                             menuIsOpen={false}
