@@ -85,7 +85,7 @@ export default function AddPlugin(props) {
             formData.append('price', price ? price : 0);
             formData.append('codeLink', code);
             formData.append('youtubeLink', video);
-            //tags.map((t) => formData.append('tags[]', t.value));
+            tags.map((t) => formData.append('tags[]', t.value));
             categories.map((c) => formData.append('categories[]', c));
             await api.createPlugin(formData, {
                 headers: {

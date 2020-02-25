@@ -99,6 +99,7 @@ updatePlugin = async (req, res) => {
         plugin.description = body.description;
         plugin.price = body.price;
         plugin.categories = body.categories;
+        plugin.tags = body.tags;
         plugin.codeLink = body.codeLink;
         plugin.youtubeLink = body.youtubeLink;
         plugin.visible = body.visible;
