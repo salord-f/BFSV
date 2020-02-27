@@ -21,8 +21,9 @@
 }
 
 .mediaImage {
-    width: 100%;
     margin: auto;
     height: 100%;
     object-fit: contain;
+    position: relative;
+    right: 50%;
 }

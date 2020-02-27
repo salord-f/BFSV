@@ -144,11 +144,16 @@ function Modify(props) {
                     <Card className="detailCard" variant="outlined">
                         <Grid container spacing={10} >
                             <Grid item xs={3}>
-                                <ImageAsync src={plugin.image}>
-                                    {({ loaded }) =>
-                                        loaded ? <img alt="Loading..." className="detailImage" src={plugin.image} /> : <div>Loading...</div>
-                                    }
-                                </ImageAsync>
+                                <Grid container spacing={0}
+                                      alignItems="center"
+                                      justify="center"
+                                >
+                                    <ImageAsync src={plugin.image} >
+                                        {({ loaded}) =>
+                                            loaded ? <img alt="Loading..." className="detailImage" src={plugin.image} /> : <div>Loading...</div>
+                                        }
+                                    </ImageAsync>
+                                </Grid>
                             </Grid>
                             <Grid item xs={5}>
                                 <Grid container spacing={3} justify="flex-start" style={{ marginTop: "20px" }}>

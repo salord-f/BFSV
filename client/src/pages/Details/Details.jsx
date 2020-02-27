@@ -48,14 +48,10 @@ function youTube(videoId) {
     }
 }
 
-
-
-
-
 function codeLink(link) {
     if (link !== "" && link != null) {
         return (
-            <a href={link}>Source code</a>
+            <Button variant="contained" href={link}>Code source</Button>
         )
     }
 }
@@ -162,11 +158,17 @@ function Details(props) {
                     <Card className="detailCard" variant="outlined">
                         <Grid container spacing={10} style={{marginLeft:"40px",marginRight:"40px"}}>
                             <Grid item xs={3}>
-                                <ImageAsync src={plugin.image}>
-                                    {({ loaded}) =>
-                                        loaded ? <img alt="Loading..." className="detailImage" src={plugin.image} /> : <div>Loading...</div>
-                                    }
-                                </ImageAsync>
+                                <Grid container spacing={0}
+                                      alignItems="center"
+                                      justify="center"
+                                      >
+                                    <ImageAsync src={plugin.image} >
+                                        {({ loaded}) =>
+                                            loaded ? <img alt="Loading..." className="detailImage" src={plugin.image} /> : <div>Loading...</div>
+                                        }
+                                    </ImageAsync>
+                                </Grid>
+
                             </Grid>
                             <Grid item xs={6}>
                                 <Grid container spacing={3} justify="flex-start" style={{ marginTop: "20px" }}>
@@ -228,13 +230,13 @@ function Details(props) {
                                     {
                                         plugin.categories &&
                                         plugin.categories.map((item, index) => (
-                                            <Grid item xs={8}>
+                                            <Grid item xs={8} key={index}>
                                                 <CategoryItem key={index} item={item}/>
                                             </Grid>))
                                     }
                                 </Grid>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={11}>
                                 <CardContent>
                                     <Typography className="detailTitle" color="textSecondary" gutterBottom>
                                         Description
