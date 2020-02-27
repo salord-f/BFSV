@@ -63,7 +63,6 @@ function MainRoute() {
             <Switch>
                 <Route path="/plugins/:id" exact component={Details} />
                 <Route path="/admin" exact component={AdminPage} />
-                <Route path="/user/profile" exact component={Profile} />
                 <Route path="/user/plugins" exact component={UserPlugins} />
                 <Route path="/user/modify/:id" exact component={ModifyPlugin} />
                 <Route path="/user/cart" exact component={Cart} />

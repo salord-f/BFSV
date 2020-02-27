@@ -151,7 +151,6 @@ export default function PrimarySearchAppBar() {
 
     const connectedMenu = (
         [
-            <MenuItem key={"PROFIL"} onClick={() => handleMenuClose('/user/profile')}>Mon profil</MenuItem>,
             <MenuItem key={"PLUGINS"} onClick={() => handleMenuClose('/user/plugins')}>Mes plugins</MenuItem>,
             <MenuItem key={"CART"} onClick={() => handleMenuClose('/user/cart')}>Mon panier</MenuItem>,
             <MenuItem key={"DISCONNEXION"} onClick={() => {
